@@ -1,21 +1,35 @@
 const btn = document.querySelector('input[type="submit"]');
 const finput = document.querySelector('input[type="file"]');
-// const img = document.querySelector("form img");
+const profileImg = document.querySelector("form img");
 
 btn.addEventListener("click", (e) => {
-	e.preventDefault();
-	console.log("form submitted!");
-	// img.src = finput.value;
-	console.log(finput.files[0]);
+	// e.preventDefault();
+	// console.log("form submitted!");
+	// console.log(finput.files[0]);
+});
 
-	let img = finput.files[0];
+finput.addEventListener("change", (e) => {
+	let imgFile = finput.files[0];
 	let form = new FormData();
-	form.append("picture", img, img["name"]);
+	form.append("picture", imgFile, imgFile["name"]);
 
 	fetch("../api/tmpimage.php", {
 		method: "POST",
 		body: form,
-	});
+	})
+		.then((data) => {
+			return data.json();
+		})
+		.then((jsoned) => {
+			console.log(jsoned);
+			profileImg.src = jsoned["tmpImg"];
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+	console.log(`changed!`);
 });
 
-// add finput.onchange(fetch => send current image to /tmpimage.php)
+/* #TODO
+[*]-add finput.onchange(fetch => send current image to /tmpimage.php)
+*/

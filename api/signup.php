@@ -32,9 +32,12 @@ echo "</pre>";
 /*
 nutshell:
 pdo connects to table users
-form is read into $_POST
-username is checked, if available, check email, if available, set password (regardless of strength)
-if the above checks pass, check profile pic if size in range, if filetype correct, copy it to public/profiles/username.extension,
-and set the field ppic in the table user as username.extension
-if all the above, redirect to login.php
+[*]-form is read into $_POST
+[]-username is checked, if available
+[]-check email, if available
+[]-set password (regardless of strength)
+[*]-if the above checks pass, check profile pic if size in range // done by php.ini
+[*]-if filetype correct, copy it to public/profiles/username.extension,
+[]-and set the field ppic in the table user as username.extension
+[]-if all the above, redirect to login.php
 */
