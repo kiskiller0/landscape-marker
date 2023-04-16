@@ -1,0 +1,25 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.welcome {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 250px;
+	height: 150px;
+	border: 1px solid black;
+	margin: 3em auto;
+}
+
+section {
+	font-size: 2em;
+	text-transform: capitalize;
+}
+.or {
+	width: 100%;
+	text-align: center;
+}
