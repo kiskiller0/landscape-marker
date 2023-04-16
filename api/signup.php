@@ -1,14 +1,20 @@
 <?php
 
 if (empty($_POST)) {
-    die("redirecting you back to /views/signup ....");
+    echo json_encode(["error" => true, "msg" => "no data supplied!"]);
 }
-
-echo "<pre>";
 
 foreach ($_POST as $key => $val) {
-    echo $key . "  ==>  " . $val . "\n";
+    if (trim($val) == '') {
+        echo json_encode(["error" => true, "msg" => '$key field is empty!']);
+    }
 }
+
+// echo "<pre>";
+
+// foreach ($_POST as $key => $val) {
+//     echo $key . "  ==>  " . $val . "\n";
+// }
 
 // preparing profile picture upload:
 $allowedTypes = ['jpeg', 'jpg', 'png'];
@@ -19,12 +25,13 @@ if (!empty($_FILES)) {
     var_dump($_FILES);
     $tmpProfile = $_FILES["picture"]["tmp_name"];
     if (in_array($extension, $allowedTypes)) {
+        echo json_encode(["error" => false]);
         move_uploaded_file($tmpProfile, $path . $_POST['username'] . '.' . $extension);
     } else {
-        echo "image format not supported!\nyou have to manually change the image later in your user settings!";
+        echo json_encode(["error" => true, "msg" => "filetype not supported!"]);
     }
 } else {
-    echo "no file supplied!";
+    echo json_encode(["error" => true, "msg" => "no image supplied!"]);
 }
 echo "</pre>";
 

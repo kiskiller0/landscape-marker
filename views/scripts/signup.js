@@ -1,6 +1,7 @@
 const btn = document.querySelector('input[type="submit"]');
 const finput = document.querySelector('input[type="file"]');
 const profileImg = document.querySelector("form img");
+const msgBox = document.querySelector("#msgBox");
 
 btn.addEventListener("click", (e) => {
 	// e.preventDefault();
@@ -22,7 +23,10 @@ finput.addEventListener("change", (e) => {
 		})
 		.then((jsoned) => {
 			console.log(jsoned);
-			profileImg.src = jsoned["tmpImg"];
+			if (jsoned["tmpImg"]) {
+				profileImg.src = jsoned["tmpImg"];
+				msgBox.classList.to;
+			}
 		})
 		.catch((err) => {
 			console.log(err);

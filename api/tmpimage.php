@@ -10,5 +10,5 @@ if (!empty($_FILES)) {
     echo json_encode(["tmpImg" => $newPath]);
     // echo "image uploaded successfully! to <img src=\"" . $newPath . "\">";
 } else {
-    echo "no image selected!";
+    echo json_encode(["tmpImg" => false]);
 }
