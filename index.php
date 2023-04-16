@@ -5,12 +5,7 @@ include "./views/partials/header.html";
 if (!empty($_SESSION)) {
     echo "redirecting to home ...";
 } else {
-    include "./views/partials/welcome.html";
-}
-if (!empty($GLOBAL['msg']))
-    echo $GLOBAL['msg'];
-else {
-    echo "no globalMsg!!";
+    include "./views/partials/welcome.html"; //#TODO: animate the placeholder: setTimout, everytime add a letter!
 }
 ?>
 
