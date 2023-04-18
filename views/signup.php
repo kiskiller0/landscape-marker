@@ -1,6 +1,8 @@
 <?php
 session_start();
-
+//logger:
+include "../logger.php";
+//eologger
 if (!empty($_SESSION)) {
     echo "redirecting to home ...";
 }
@@ -14,6 +16,8 @@ include "./partials/header.html";
 
 <body>
 
+    <div id="msgBox">
+    </div>
     <form action="../api/signup.php" method="post" enctype="multipart/form-data">
         <div class="file">
             <input type="file" name="picture">

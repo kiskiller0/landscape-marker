@@ -1,12 +1,36 @@
 const btn = document.querySelector('input[type="submit"]');
 const finput = document.querySelector('input[type="file"]');
 const profileImg = document.querySelector("form img");
+const form = document.querySelector("form");
 const msgBox = document.querySelector("#msgBox");
 
-btn.addEventListener("click", (e) => {
-	// e.preventDefault();
-	// console.log("form submitted!");
-	// console.log(finput.files[0]);
+document.write("hello, world@!s");
+
+form.addEventListener("submit", (e) => {
+	e.preventDefault();
+	let fd = new FormData(form);
+	fetch("../api/signup.php", {
+		method: "POST",
+		body: fd,
+	})
+		.then((data) => data.json())
+		.then((jsoned) => {
+			msgBox.textContent = jsoned.msg;
+			if (jsoned.error) {
+				msgBox.classList.add("visible");
+				msgBox.classList.remove("correct");
+			} else {
+				// #TODO: remove the visible class!
+				// and when you are at it, remove or change the textContent.
+				msgBox.classList.add("visible");
+				msgBox.classList.add("correct");
+			}
+
+			console.log(jsoned);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
 
 finput.addEventListener("change", (e) => {
@@ -29,7 +53,7 @@ finput.addEventListener("change", (e) => {
 			}
 		})
 		.catch((err) => {
-			console.log(err);
+			console.log(`error: ${err}`);
 		});
 	console.log(`changed!`);
 });

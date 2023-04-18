@@ -1,40 +1,54 @@
 <?php
+//logger:
+include "../logger.php";
+//eologger
+
+header("Content-type: application/json");
 
 if (empty($_POST)) {
     echo json_encode(["error" => true, "msg" => "no data supplied!"]);
+    die(); // prevent multiple fetch replies
 }
 
-foreach ($_POST as $key => $val) {
-    if (trim($val) == '') {
-        echo json_encode(["error" => true, "msg" => '$key field is empty!']);
+
+$wantedKeys = ['username', 'password', 'email'];
+
+foreach ($wantedKeys as $key) {
+    if (!in_array($key, array_keys($_POST)) || trim($_POST[$key]) == '') {
+        echo json_encode([
+            "error" => true, "msg" =>
+            "$key field is empty"
+        ]);
+        die(); // prevent multiple fetch replies
     }
 }
 
-// echo "<pre>";
-
-// foreach ($_POST as $key => $val) {
-//     echo $key . "  ==>  " . $val . "\n";
-// }
 
 // preparing profile picture upload:
 $allowedTypes = ['jpeg', 'jpg', 'png'];
 $path = "../public/profiles/";
 
 if (!empty($_FILES)) {
-    $extension = explode("/",  $_FILES['picture']['type'])[1];
-    var_dump($_FILES);
+    try {
+        if ($_FILES['picture']['type'] == '')
+            throw new Exception("empty file submit");
+        else {
+            $extension = explode("/",  $_FILES['picture']['type'])[1];
+        }
+    } catch (Exception $err) {
+        echo json_encode(["error" => true, "msg" => 'unsupported type!']);
+        die();
+    }
     $tmpProfile = $_FILES["picture"]["tmp_name"];
     if (in_array($extension, $allowedTypes)) {
-        echo json_encode(["error" => false]);
         move_uploaded_file($tmpProfile, $path . $_POST['username'] . '.' . $extension);
+        echo json_encode(["error" => false, "msg" => "file accepted!"]);
     } else {
         echo json_encode(["error" => true, "msg" => "filetype not supported!"]);
     }
 } else {
     echo json_encode(["error" => true, "msg" => "no image supplied!"]);
 }
-echo "</pre>";
-
 
 /*
 nutshell:
@@ -48,3 +62,4 @@ pdo connects to table users
 []-and set the field ppic in the table user as username.extension
 []-if all the above, redirect to login.php
 */
+// echo "</pre>";

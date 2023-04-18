@@ -1,4 +1,7 @@
 <?php
+//logger:
+include "../logger.php";
+//eologger
 
 // this is a fetch api endpoint, reply with json!
 // make the generated name random (a security feature)
