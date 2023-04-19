@@ -66,6 +66,7 @@ label {
 /* msgBox style: */
 
 #msgBox {
+	position: absolute;
 	visibility: hidden;
 }
 #msgBox.visible {

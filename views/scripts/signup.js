@@ -4,8 +4,6 @@ const profileImg = document.querySelector("form img");
 const form = document.querySelector("form");
 const msgBox = document.querySelector("#msgBox");
 
-document.write("hello, world@!s");
-
 form.addEventListener("submit", (e) => {
 	e.preventDefault();
 	let fd = new FormData(form);
@@ -32,6 +30,8 @@ form.addEventListener("submit", (e) => {
 			console.log(err);
 		});
 });
+
+// preview the profile picture:
 
 finput.addEventListener("change", (e) => {
 	let imgFile = finput.files[0];
