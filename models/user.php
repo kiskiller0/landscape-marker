@@ -23,6 +23,16 @@ class user
     return $s->fetch();
   }
 
+  public function getByUsernameAndPassword($username, $password)
+  {
+    // this is redundant!
+    $user = $this->getByUsername($username);
+    if ($user['password'] == $password) {
+      return $user;
+    }
+    return false;
+  }
+
   public function getByEmail($email)
   {
     $s = $this->pdo->prepare("SELECT * FROM user WHERE email = ?");

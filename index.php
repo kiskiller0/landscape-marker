@@ -5,9 +5,10 @@ include "logger.php";
 //eologger
 include "./views/partials/header.html";
 if (!empty($_SESSION)) {
-    echo "redirecting to home ...";
+    // echo "redirecting to home ...";
+    include "./views/home.php";
 } else {
-    include "./views/partials/welcome.html"; //#TODO: animate the placeholder: setTimout, everytime add a letter!
+    include "./views/welcome.html"; //#TODO: animate the placeholder: setTimout, everytime add a letter!
 }
 ?>
 

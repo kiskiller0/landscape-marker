@@ -34,7 +34,7 @@ if (!empty($_FILES)) {
 	}
 }
 // var_dump($User->addUser(['picture' => true, ...$_POST]));
-echo json_encode($User->addUser(['picture' => true, ...$_POST]));
+echo json_encode($User->addUser(['picture' => $picture, ...$_POST]));
 // var_dump(['picture' => true, ...$_POST]);
 /*
 nutshell:

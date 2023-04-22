@@ -22,7 +22,7 @@ include "./partials/header.html";
 
         <input type="submit" value="login">
     </form>
-    <script src="scripts/signup.js"></script>
+    <script src="scripts/signin.js"></script>
 </body>
 
 <?php
