@@ -1,15 +1,52 @@
 <?php
+
+
+// echo json_encode(["files" => [...$_FILES], 'post' => [...$_POST]]);
+// die();
+
 session_start();
+
+header('content-type: application/json');
+
+
+// I should check for userid also, not just username
+// but there is no reason for only one of them to exist alone!
+// thus I should cut the redundancy!
 if (!in_array('username', array_keys($_SESSION))) {
-  echo json_encode(['error' => true, 'msg' => 'no user logged in! stop testing my API\'s!']);
-  die();
+  if (!in_array('userid', array_keys($_SESSION))) {
+    // #TODO: []-this is assumed redundant, and is gonna be cut in future code reviews!
+    die(json_encode(['error' => true, 'msg' => 'not logged in!']));
+  }
 }
 
 
-echo "<pre>";
+// checking the uploaded image: (images are mandatory!)
 
-var_dump($_POST);
 
-echo "<hr>";
+// echo json_encode(['files' => $_FILES]);
+// die();
 
-var_dump($_FILES);
+
+if (!in_array('imgsrc', array_keys($_FILES))) {
+  echo json_encode(['error' => true, 'msg' => 'no image selected!']);
+  die();
+} else {
+  // [*]-check img type!
+  // [*]-upload it to pictures folder and assign postid as an image name
+  $allowed_types = ['jpeg', 'jpg', 'png'];
+  $type = explode('/', $_FILES['imgsrc']['type'])[1];
+  if (in_array($type, $allowed_types)) {
+    // [*]-do the upload and name assignment
+    $fpath = "../public/posts/" . $_SESSION['userid'];
+    move_uploaded_file($_FILES['imgsrc']['tmp_name'], $fpath);
+    // echo json_encode(['error' => false, 'msg' => 'image uploaded successfully!']);
+  }
+}
+
+
+
+include "../models/post.php";
+// echo json_encode([...$_POST, 'userid' => $_SESSION['userid']]);
+
+$post->createPost([...$_POST, 'userid' => $_SESSION['userid']]);
+echo json_encode(['error' => false, 'msg' => 'post created!']);

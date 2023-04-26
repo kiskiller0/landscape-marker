@@ -24,6 +24,7 @@ include "views/partials/header.html";
       </div>
     </section>
 
+
     <section id="content">
     </section>
 
@@ -38,12 +39,11 @@ include "views/partials/header.html";
         <i class="fa-solid fa-xmark clickable"></i>
       </div>
       <div class="blog_content">
-        <!-- <label for="content">Write:</label> -->
         <form action="api/send_post.php" method="post" enctype="multipart/form-data">
           <textarea name="content" placeholder="say something"></textarea>
 
           <div class="file">
-            <input type="file" name="picture">
+            <input type="file" name="imgsrc">
             <i class="fa-regular fa-image"></i>
           </div>
 

@@ -4,6 +4,12 @@
 	box-sizing: border-box;
 }
 
+/* this fixes the extra scroll because of hiding popups using top: 100% */
+body {
+	/* border: 4px solid magenta; */
+	overflow: hidden;
+}
+
 .page {
 	display: flex;
 	height: 100vh;
@@ -11,6 +17,7 @@
 	/* border: 5px solid black; */
 	align-items: center;
 	gap: 1em;
+	border: 1px solid red;
 }
 
 #topbar {
@@ -135,10 +142,11 @@ input:focus {
 }
 
 .popup {
-	transition: 0.3s all ease-in-out;
+	transition: 1s all ease-in-out;
 	z-index: 3;
 }
 
+/* this is supposedly the calculations intensive way, that triggers recalculating layout: */
 .popup.hidden,
 .popup_background.hidden {
 	visibility: hidden;
@@ -147,9 +155,21 @@ input:focus {
 	opacity: 0;
 	background: none;
 }
+
 .popup.hidden {
 	top: 100%;
 }
+/* using transforms because they don't require calculating the new layout: */
+/* .popup.hidden,
+.popup_background.hidden {
+	visibility: hidden;
+	transform: scaleX(0.1) scaleY(0.1);
+	opacity: 0;
+	background: none;
+}
+.popup.hidden {
+	transform: scaleX(0.1) scaleY(0.1) translate(0, 100vh);
+} */
 
 .popup .controls {
 	display: flex;

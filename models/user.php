@@ -23,6 +23,13 @@ class user
     return $s->fetch();
   }
 
+  public function getById($id)
+  {
+    $s = $this->pdo->prepare("SELECT * FROM user WHERE id = ?");
+    $s->execute([$id]);
+    return $s->fetch();
+  }
+
   public function getByUsernameAndPassword($username, $password)
   {
     // this is redundant!

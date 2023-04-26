@@ -21,7 +21,9 @@ header("Content-type: application/json");
 if ($u = $User->getByUsername($_POST['username'])) {
     if ($u['password'] == $_POST['password']) {
         echo json_encode(['error' => false, 'msg' => "user \"" . $_POST['username'] . ':', "values:" => [...$u]]);
-        $_SESSION['username'] = $_POST['username'];
+        // $_SESSION['username'] = $_POST['username'];
+        $_SESSION['username'] = $u['username'];
+        $_SESSION['userid'] = $u['id'];
     } else {
         echo json_encode(['error' => true, 'msg' => "password is wrong!"]);
     }
