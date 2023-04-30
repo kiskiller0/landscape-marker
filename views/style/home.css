@@ -92,15 +92,26 @@ input:focus {
 	flex-grow: 3;
 	border: 1px solid black;
 	border-radius: 15px;
+	display: flex;
+	overflow: auto;
+}
+
+.realContent {
+	height: 1000px;
+	width: 100%;
+	background-color: red;
 }
 
 #footer {
 	width: 80%;
+	min-height: 30px;
 	height: 30px;
-	display: flex;
 	border: 1px solid black;
-	justify-content: space-around;
+	/* justify-content: space-around; */
 	border-radius: 15px 15px 0 0;
+	display: flex;
+	justify-content: center;
+	position: relative;
 }
 
 .clickable {
@@ -109,9 +120,6 @@ input:focus {
 }
 
 #footer {
-	display: flex;
-	justify-content: center;
-	position: relative;
 }
 
 .camera {

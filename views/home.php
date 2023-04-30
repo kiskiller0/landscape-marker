@@ -26,6 +26,7 @@ include "views/partials/header.html";
 
 
     <section id="content">
+      <div class="realContent"></div>
     </section>
 
     <section id="footer">
