@@ -1,4 +1,8 @@
 <?php
+
+
+// TODO: []- remove this entirely and tuck it under get_posts, by sending a request with a different
+// body, you can access the get_posts endpoint conditionally!
 session_start();
 header('content-type: application/json');
 
@@ -15,9 +19,9 @@ $namelessPosts = $post->getLastPosts();
 
 $posts = array();
 
-foreach ($namelessPosts as $post) {
-  $username = $User->getById($post['userid'])['username'];
-  array_push($posts, [...$post, 'username' => $username]);
+foreach ($namelessPosts as $currentPost) {
+  $username = $User->getById($currentPost['userid'])['username'];
+  array_push($posts, [...$currentPost, 'username' => $username]);
 }
 
-echo json_encode(['error' => '?', 'data' => $posts]);
+echo json_encode(['error' => '?', 'posts' => $posts]);

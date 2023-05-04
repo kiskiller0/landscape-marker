@@ -28,6 +28,7 @@ class PostSet {
 
 	constructor(div) {
 		this.div = div;
+		this.fetchNext("api/get_last_posts.php");
 		// if no local posts, fetch!
 		this.getLocalPosts() || this.fetchNext();
 		// this.getLocalPosts(); this.fetchNext();
@@ -39,21 +40,20 @@ class PostSet {
 		return false;
 	}
 
-	fetchNext() {
+	fetchNext(url = this.api) {
 		// this fetches n posts at maximum, n is defined server-side
 		let form = new FormData();
-		form.append(this.content.slice(-1)["id"]);
-		fetch(this.api, {
+		form.append("id", this.content.slice(-1)["id"]);
+		fetch(url, {
 			method: "post",
-			body: JSON.stringify(data),
-			header: {
-				"Content-type": "application/json",
-			},
+			body: form,
+			header: {},
 		})
 			.then((posts) => posts.json())
 			.then((decoded) => {
-				// this.content = [...this.content, ...decoded.posts];
+				console.log(url);
 				console.log(decoded);
+				this.content = [...this.content, ...decoded.posts];
 			})
 			.catch((err) => {
 				console.log(`unhandled error in the fetchPosts api!`);
