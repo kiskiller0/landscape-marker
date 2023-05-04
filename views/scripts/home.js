@@ -1,3 +1,5 @@
+// popup window logic:
+
 let x = document.querySelector(".blog .controls .clickable");
 let addBlog = document.querySelector(".page #footer .clickable");
 let blogPopup = document.querySelector(".blog.popup");
@@ -13,90 +15,84 @@ addBlog.addEventListener("click", (e) => {
 	globalBlur.classList.remove("hidden");
 });
 
-// getting posts:
-
-// pagination and shit:
-
 const container = document.querySelector("#content");
 const content = document.querySelector(".realContent");
 
-let posts = [];
+// refactoring the post fetching logic into one class:
 
-let pageLength = 10;
-let currentPage = 1;
+class PostSet {
+	content = [];
+	api = "api/get_posts.php";
+	div = null; // where posts are gonna be injected/rendered as html elements
+	lastPostIndex = 0; // no need for a function closure now!
 
-for (let i = 0; i < 25; i++) {
-	posts.push(`post: ${i}`);
-}
+	constructor(div) {
+		this.div = div;
+		// if no local posts, fetch!
+		this.getLocalPosts() || this.fetchNext();
+		// this.getLocalPosts(); this.fetchNext();
+		// extract previously saved posts from local storage:
+	}
 
-function getRenderer(batchSize) {
-	// this function generates a renderer function with batchSize as pageSize(how many posts to render maximum, at each time)
-	// it has closure on a variable: currentBatch that keeps track of how many posts have rendered up untill now.
-	let lastIndex = 0; // index of last element rendered!
+	getLocalPosts() {
+		// window.localStorage.get('posts'); // stringify / unstringify logic!
+		return false;
+	}
 
-	function render(posts) {
-		let remaining = posts.slice(lastIndex, posts.length).length;
-		let toRender = remaining > batchSize ? batchSize : batchSize - remaining;
+	fetchNext() {
+		// this fetches n posts at maximum, n is defined server-side
+		let form = new FormData();
+		form.append(this.content.slice(-1)["id"]);
+		fetch(this.api, {
+			method: "post",
+			body: JSON.stringify(data),
+			header: {
+				"Content-type": "application/json",
+			},
+		})
+			.then((posts) => posts.json())
+			.then((decoded) => {
+				// this.content = [...this.content, ...decoded.posts];
+				console.log(decoded);
+			})
+			.catch((err) => {
+				console.log(`unhandled error in the fetchPosts api!`);
+				console.log(err);
+			});
+	}
 
-		if (toRender < 1) {
+	render() {
+		// this is supposed to render this.posts to this.div
+		// for testing reasons, it is just gonna print from last post!
+		if (this.content.length == this.lastPostIndex) {
 			return;
 		}
 
-		console.log(
-			`rendering ${toRender} posts\nremaining: ${remaining} posts\nPosts:`
-		);
-		console.log(posts.slice(lastIndex, lastIndex + toRender));
-
-		lastIndex += toRender;
+		console.log(this.content.slice(this.lastPostIndex, this.content.length));
+		this.lastPostIndex = this.content.length;
 	}
-	return render;
 }
 
-async function fetchPosts(posts) {
-	let form = new FormData();
-	form.append("lastPost", posts.slice(-1));
-	fetch("api/get_posts.php", {
-		method: "post",
-		body: form,
-	})
-		.then((raw) => raw.json())
-		.then((jsoned) => {
-			console.log(jsoned);
-		})
-		.catch((err) => {
-			console.log(`err: ${err}`);
-		});
-}
+const myPosts = new PostSet(document.getElementsByClassName("realContent")[0]);
 
-const getNewPosts = getRenderer(6);
-
-// first render if posts is not empty:
-getNewPosts(posts);
+myPosts.render();
+myPosts.fetchNext();
 
 // TODO:
-// make the render function renders all posts form current index to tha last item
-// no need to make the user wait for locally available data! - redundancy!
+// []- make the render function renders all posts form current index to tha last item
+// no need to make the user wait for locally available data! - useless bottlenck!
 container.addEventListener("scroll", (e) => {
 	// TODO:
 	// []- when the event is triggered, stop listening for 3s, and then re-attach the event
 	// to stop requesting more than one page's worth of posts if you happen to hit the bottom
 	// twice or more before new posts render
 
-	// first, fetch another n posts to add them to posts:
-	fetchPosts(posts);
-
 	if (
 		// scrollTop = scrollHeight - offsetHeight
 		container.scrollTop + container.offsetHeight >
 		container.scrollHeight - 20
 	) {
-		console.log(`end`);
-		// render next n posts from posts, if not, fetch new n posts:
-		getNewPosts(posts);
+		myPosts.fetchNext();
+		myPosts.render();
 	}
 });
-
-container.addEventListener("click", (e) => {
-	console.log(`click!`);
-});
-console.log(`offset height: ${container.offsetHeight}`);

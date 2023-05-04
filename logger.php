@@ -17,6 +17,6 @@ $message .= json_encode($_FILES, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT) . "\n";
 // $message .= "\n";
 
 
-file_put_contents($fpath . "logger.txt", $message, FILE_APPEND);
+file_put_contents($fpath, $message, FILE_APPEND);
 
 // echo "OK\n";

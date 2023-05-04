@@ -7,8 +7,8 @@ class user
   private $username = "root";
   private $password = '';
   private $pdo;
-  private $minUsernameLength = 10;
-  private $minPasswordLength = 12;
+  private $minUsernameLength = 4;
+  private $minPasswordLength = 4;
 
   public function __construct()
   {
@@ -49,19 +49,22 @@ class user
 
   public function verifyUsername($username)
   {
-    return !$this->getByUsername($username) && strlen($username) >= $this->minUsernameLength;
+    // TODO: []- provide the reason for refusal as in: username already in use!
+    return $username && !$this->getByUsername($username) && strlen($username) >= $this->minUsernameLength;
   }
 
   public function verifyEmail($email)
   {
     // return !$this->getByUsername($username) && strlen($username) >= $this->minUsernameLength;
-    return !$this->getByEmail($email);
+    // TODO: []- provide the reason for refusal as in: email already in use!
+    return $email && !$this->getByEmail($email);
   }
 
   public function verifyPassword($password)
   {
     // return !$this->getByUsername($username) && strlen($username) >= $this->minUsernameLength;
-    return strlen($password) >= $this->minPasswordLength;
+    // TODO: []- provide the reason for refusal as in: password too short
+    return $password && strlen($password) >= $this->minPasswordLength;
   }
 
 
@@ -77,10 +80,11 @@ class user
 
   public function addUser($userData)
   {
-    $username = $userData['username'];
-    $password = $userData['password'];
-    $email = $userData['email'];
-    $picture = $userData['picture'];
+
+    $username = in_array('username', array_keys($userData)) ? $userData['username'] : null;
+    $password = in_array('password', array_keys($userData)) ? $userData['password'] : null;
+    $email = in_array('email', array_keys($userData)) ? $userData['email'] : null;
+    $picture = in_array('picture', array_keys($userData)) ? $userData['picture'] : null;
 
     if (!$this->verifyUsername($username)) {
       return ['error' => true, 'msg' => 'username doesn\'t meet criteria!'];

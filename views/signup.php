@@ -11,7 +11,7 @@ include "./partials/header.html";
 ?>
 
 <link rel="stylesheet" href="style/signup.css">
-<title>Login</title>
+<title>Register</title>
 </head>
 
 <body>
