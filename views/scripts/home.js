@@ -55,7 +55,11 @@ class PostSet {
 			body: form,
 			header: {},
 		})
-			.then((posts) => posts.json())
+			// .then((raw) => raw.text())
+			.then((posts) => {
+				// console.log(posts);
+				return posts.json();
+			})
 			.then((decoded) => {
 				if (decoded.error) {
 					console.log(`error! ${decoded.msg}`);
@@ -100,9 +104,10 @@ class PostSet {
 			postDiv.classList.add("post");
 			let img = document.createElement("img");
 			img.src = `/public/posts/${post.id}`;
-			img.classList.add(".postImage");
+			img.classList.add("postImage");
 			postDiv.appendChild(p);
 			postDiv.appendChild(img);
+			postDiv.appendChild(document.createElement("hr"));
 			this.div.appendChild(postDiv);
 		}
 
@@ -123,7 +128,7 @@ container.addEventListener("scroll", (e) => {
 	// []- when the event is triggered, stop listening for 3s, and then re-attach the event
 	// to stop requesting more than one page's worth of posts if you happen to hit the bottom
 	// twice or more before new posts render
-
+	// []- (maybe) turn the trigger to: hovering over the last element, rather than scrolling down to the last element!
 	if (
 		// scrollTop = scrollHeight - offsetHeight
 		container.scrollTop + container.offsetHeight >

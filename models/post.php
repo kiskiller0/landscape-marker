@@ -7,7 +7,7 @@ class Post
   private $username = "root";
   private $password = 'bader';
   private $pdo;
-  private $batch = 3; // number of posts to fetch per page (pagination)
+  private $batch = 2; // number of posts to fetch per page (pagination)
 
   public function __construct()
   {
@@ -46,8 +46,12 @@ class Post
   {
     if ($id) {
       // get posts older than $id
+      $sql = "SELECT * FROM post WHERE id < $id ORDER BY id DESC LIMIT " . $this->batch . ";";
       $s = $this->pdo->prepare("SELECT * FROM post WHERE id < ? ORDER BY id DESC LIMIT ?");
-      $s->execute([$id, $this->batch]);
+      $s->bindValue(1, $id, PDO::PARAM_INT);
+      $s->bindValue(2, (int)$this->batch, PDO::PARAM_INT);
+      // $s->execute([(int)$id, (int)$this->batch]);
+      $s->execute();
       return $s->fetchAll(); // ? what does it return?
     }
 

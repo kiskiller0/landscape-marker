@@ -100,6 +100,9 @@ input:focus {
 	min-height: 101%;
 	width: 100%;
 	background-color: antiquewhite;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 #footer {
@@ -107,7 +110,6 @@ input:focus {
 	min-height: 30px;
 	height: 30px;
 	border: 1px solid black;
-	/* justify-content: space-around; */
 	border-radius: 15px 15px 0 0;
 	display: flex;
 	justify-content: center;
@@ -167,17 +169,6 @@ input:focus {
 .popup.hidden {
 	top: 100%;
 }
-/* using transforms because they don't require calculating the new layout: */
-/* .popup.hidden,
-.popup_background.hidden {
-	visibility: hidden;
-	transform: scaleX(0.1) scaleY(0.1);
-	opacity: 0;
-	background: none;
-}
-.popup.hidden {
-	transform: scaleX(0.1) scaleY(0.1) translate(0, 100vh);
-} */
 
 .popup .controls {
 	display: flex;
@@ -255,13 +246,13 @@ input:focus {
 
 .post {
 	width: 400px;
-	height: 200px;
+	min-height: 200px;
 	display: flex;
-
+	overflow: hidden;
 	flex-direction: column;
 }
 
 .postImage {
-	width: 50%;
-	flex-grow: 1;
+	max-width: 340px;
+	/* max-height: 240px; */
 }

@@ -20,6 +20,6 @@ if (empty($_POST)) {
   if (in_array('id', array_keys($_POST))) {
     // TODO: []- check if id is a legit number
     // also, if the absence of id from posts yields null, than, we won't need an else clause.
-    echo json_encode($post->getLastPosts($_POST['id']));
+    echo json_encode(['error' => false, 'posts' => $post->getLastPosts($_POST['id'])]);
   }
 }
