@@ -25,7 +25,8 @@ if (!empty($_FILES)) {
 			$extension = explode("/",  $_FILES['picture']['type'])[1];
 			$tmpProfile = $_FILES["picture"]["tmp_name"];
 			if (in_array($extension, $allowedTypes)) {
-				move_uploaded_file($tmpProfile, $path . $_POST['username'] . '.' . $extension);
+				// move_uploaded_file($tmpProfile, $path . $_POST['username'] . '.' . $extension);
+				move_uploaded_file($tmpProfile, $path . $_POST['username']);
 				// echo json_encode(["error" => false, "msg" => "file accepted!"]);
 				$picture = true;
 			}
@@ -40,9 +41,9 @@ echo json_encode($User->addUser(['picture' => $picture, ...$_POST]));
 nutshell:
 pdo connects to table users
 [*]-form is read into $_POST
-[]-username is checked, if available
-[]-check email, if available
-[]-set password (regardless of strength)
+[*]-username is checked, if available
+[*]-check email, if available
+[*]-set password (regardless of strength)
 [*]-if the above checks pass, check profile pic if size in range // done by php.ini
 [*]-if filetype correct, copy it to public/profiles/username.extension,
 []-and set the field ppic in the table user as username.extension

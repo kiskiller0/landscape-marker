@@ -22,6 +22,9 @@ form.addEventListener("submit", (e) => {
 				// and when you are at it, remove or change the textContent.
 				msgBox.classList.add("visible");
 				msgBox.classList.add("correct");
+
+				//
+				alert(jsoned.username);
 			}
 
 			console.log(jsoned);

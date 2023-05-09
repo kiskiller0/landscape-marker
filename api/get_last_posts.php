@@ -22,6 +22,7 @@ $posts = array();
 foreach ($namelessPosts as $currentPost) {
   $username = $User->getById($currentPost['userid'])['username'];
   array_push($posts, [...$currentPost, 'username' => $username]);
+  // array_push($posts, json_encode([...$currentPost, 'username' => $username]));
 }
 
-echo json_encode(['error' => '?', 'posts' => $posts]);
+echo json_encode(['error' => false, 'posts' => $posts]);

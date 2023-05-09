@@ -97,7 +97,7 @@ input:focus {
 }
 
 .realContent {
-	height: 1000px;
+	min-height: 101%;
 	width: 100%;
 	background-color: antiquewhite;
 }
@@ -249,4 +249,19 @@ input:focus {
 	backdrop-filter: blur(5px);
 	z-index: 2;
 	transition: 0.3s all ease-in-out;
+}
+
+/* styling fetched posts: */
+
+.post {
+	width: 400px;
+	height: 200px;
+	display: flex;
+
+	flex-direction: column;
+}
+
+.postImage {
+	width: 50%;
+	flex-grow: 1;
 }

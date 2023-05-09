@@ -28,10 +28,12 @@ class PostSet {
 
 	constructor(div) {
 		this.div = div;
-		this.fetchNext("api/get_last_posts.php");
+		// this.fetchNext("api/get_last_posts.php");
 		// if no local posts, fetch!
-		this.getLocalPosts() || this.fetchNext();
+		// this.getLocalPosts() || this.fetchNext();
 		// this.getLocalPosts(); this.fetchNext();
+		// first, get last n posts to begin with:
+		this.fetchNext("api/get_last_posts.php");
 		// extract previously saved posts from local storage:
 	}
 
@@ -43,7 +45,11 @@ class PostSet {
 	fetchNext(url = this.api) {
 		// this fetches n posts at maximum, n is defined server-side
 		let form = new FormData();
-		form.append("id", this.content.slice(-1)["id"]);
+		if (this.content.length > 0) {
+			form.append("id", this.content.slice(-1)[0].id);
+			console.log(this.content.slice(-1)[0].id || "no id!");
+		}
+		console.log(`last element:`);
 		fetch(url, {
 			method: "post",
 			body: form,
@@ -51,9 +57,20 @@ class PostSet {
 		})
 			.then((posts) => posts.json())
 			.then((decoded) => {
+				if (decoded.error) {
+					console.log(`error! ${decoded.msg}`);
+					return;
+				}
 				console.log(url);
 				console.log(decoded);
-				this.content = [...this.content, ...decoded.posts];
+				this.content = [
+					...this.content,
+					// ...decoded.posts.filter((serialized) => JSON.parse(serialized[0])),
+					...decoded.posts,
+				];
+				// calling render:
+
+				this.render();
 			})
 			.catch((err) => {
 				console.log(`unhandled error in the fetchPosts api!`);
@@ -64,18 +81,38 @@ class PostSet {
 	render() {
 		// this is supposed to render this.posts to this.div
 		// for testing reasons, it is just gonna print from last post!
+		console.log("rendering ...");
 		if (this.content.length == this.lastPostIndex) {
 			return;
 		}
 
 		console.log(this.content.slice(this.lastPostIndex, this.content.length));
+
+		// actual rendering to page:
+		console.log("rendering ...");
+		for (let post of this.content.slice(
+			this.lastPostIndex,
+			this.content.length
+		)) {
+			let p = document.createElement("p");
+			p.innerHTML = post.id + " " + post.content + " " + post.date;
+			let postDiv = document.createElement("div");
+			postDiv.classList.add("post");
+			let img = document.createElement("img");
+			img.src = `/public/posts/${post.id}`;
+			img.classList.add(".postImage");
+			postDiv.appendChild(p);
+			postDiv.appendChild(img);
+			this.div.appendChild(postDiv);
+		}
+
 		this.lastPostIndex = this.content.length;
 	}
 }
 
 const myPosts = new PostSet(document.getElementsByClassName("realContent")[0]);
 
-myPosts.render();
+// myPosts.render();
 myPosts.fetchNext();
 
 // TODO:

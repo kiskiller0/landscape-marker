@@ -5,7 +5,7 @@ class user
   private $db = "learning";
   private $host = "localhost";
   private $username = "root";
-  private $password = '';
+  private $password = 'bader';
   private $pdo;
   private $minUsernameLength = 4;
   private $minPasswordLength = 4;

@@ -5,7 +5,7 @@ class Post
   private $db = "learning";
   private $host = "localhost";
   private $username = "root";
-  private $password = '';
+  private $password = 'bader';
   private $pdo;
   private $batch = 3; // number of posts to fetch per page (pagination)
 
@@ -41,26 +41,17 @@ class Post
     return $s->fetchAll(); // ? what does it return?
   }
 
-  public function getPosts($page)
-  {
-    $s = $this->pdo->prepare("SELECT * FROM post LIMIT " . $this->batch . ", " . $page * $this->batch);
-    $s->execute();
-    return $s->fetchAll(); // ? what does it return?
-  }
-  public function getPostsOlderThan($id, $n)
-  {
-    // we can assumne that id is in sync with date since both of theme are auto_increment, one by nature
-    // the other by constraint
-    $sql = "SELECT * FROM post WHERE id > " . $id . " LIMIT " . $n;
-    return $sql;
-    $s = $this->pdo->prepare("SELECT * FROM post WHERE date >= " . $t . " LIMIT " . $n);
-    $s->execute();
-    return $s->fetchAll(); // ? what does it return?
-  }
 
-  public function getLastPosts()
+  public function getLastPosts($id = null)
   {
-    $s = $this->pdo->prepare("SELECT * FROM post LIMIT " . $this->batch);
+    if ($id) {
+      // get posts older than $id
+      $s = $this->pdo->prepare("SELECT * FROM post WHERE id < ? ORDER BY id DESC LIMIT ?");
+      $s->execute([$id, $this->batch]);
+      return $s->fetchAll(); // ? what does it return?
+    }
+
+    $s = $this->pdo->prepare("SELECT * FROM post ORDER BY id DESC LIMIT " . $this->batch);
     $s->execute();
     return $s->fetchAll(); // ? what does it return?
   }
