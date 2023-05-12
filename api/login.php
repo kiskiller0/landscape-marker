@@ -21,8 +21,9 @@ header("Content-type: application/json");
 $neededAttributes = ['username', 'password'];
 
 foreach ($neededAttributes as $attr) {
-    if (!in_array($attr, array_keys($_POST)) || ) {
-        echo "hi!";
+    if (!in_array($attr, array_keys($_POST)) || trim($_POST[$attr]) == '') {
+        echo json_encode(['err' => true, 'msg' => 'field ' . $attr . ' is empty']);
+        die();
     }
 }
 
