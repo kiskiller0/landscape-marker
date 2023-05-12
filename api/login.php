@@ -6,6 +6,7 @@ include "../logger.php";
 if (!empty($_SESSION)) {
     if (in_array('username', $_SESSION)) {
         echo json_encode(["username" => $_SESSION['username']]);
+        die();
     }
 }
 // including db model:
@@ -17,6 +18,13 @@ header("Content-type: application/json");
 
 // var_dump($u = $User->getByUsername($_POST['username']));
 
+$neededAttributes = ['username', 'password'];
+
+foreach ($neededAttributes as $attr) {
+    if (!in_array($attr, array_keys($_POST)) || ) {
+        echo "hi!";
+    }
+}
 
 if ($u = $User->getByUsername($_POST['username'])) {
     if ($u['password'] == $_POST['password']) {

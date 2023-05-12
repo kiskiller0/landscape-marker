@@ -4,38 +4,38 @@ session_start();
 include "../logger.php";
 //eologger
 if (!empty($_SESSION)) {
-	echo "redirecting to home ...";
+    echo "redirecting to home ...";
 }
 
 include "./partials/header.html";
 ?>
 
-<link rel="stylesheet" href="style/signup.css">
-<title>Register</title>
-</head>
+    <link rel="stylesheet" href="style/signup.css">
+    <title>Register</title>
+    </head>
 
-<body>
+    <body>
 
-	<div id="msgBox">
-	</div>
-	<form action="../api/signup.php" method="post" enctype="multipart/form-data">
-		<div class="file">
-			<input type="file" name="picture">
-			<div class="userImage">
-				<img src="../public/user.png" alt="">
-			</div>
-		</div>
-		<label for="username">username</label>
-		<input type="text" name="username">
-		<label for="email">email</label>
-		<input type="text" name="email">
-		<label for="password">password</label>
-		<input type="text" name="password">
+    <div id="msgBox">
+    </div>
+    <form action="../api/signup.php" method="post" enctype="multipart/form-data">
+        <div class="file">
+            <input type="file" name="picture">
+            <div class="userImage">
+                <img src="../public/profiles/user.png" alt="">
+            </div>
+        </div>
+        <label for="username">username</label>
+        <input type="text" name="username">
+        <label for="email">email</label>
+        <input type="text" name="email">
+        <label for="password">password</label>
+        <input type="text" name="password">
 
-		<input type="submit" value="Sign Up">
-	</form>
-	<script src="scripts/signup.js"></script>
-</body>
+        <input type="submit" value="Sign Up">
+    </form>
+    <script src="scripts/signup.js"></script>
+    </body>
 
 <?php
 include "./partials/footer.html";
