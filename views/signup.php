@@ -22,7 +22,7 @@ include "./partials/header.html";
         <div class="file">
             <input type="file" name="picture">
             <div class="userImage">
-                <img src="../public/profiles/user.png" alt="">
+                <img src="../public/profiles/default/user.png" alt="">
             </div>
         </div>
         <label for="username">username</label>

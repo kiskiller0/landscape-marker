@@ -1,6 +1,5 @@
 <?php
 session_start();
-$GLOBALS['msg'] = "hello, world!";
 
 if (!empty($_SESSION)) {
     echo "redirecting to home ...";
@@ -9,11 +8,11 @@ if (!empty($_SESSION)) {
 include "./partials/header.html";
 ?>
 
-<link rel="stylesheet" href="style/signin.css">
-<title>Login</title>
-</head>
+    <link rel="stylesheet" href="style/signin.css">
+    <title>Login</title>
+    </head>
 
-<body>
+    <body>
     <form action="../api/login.php" method="post">
         <label for="username">username</label>
         <input type="text" name="username">
@@ -23,7 +22,7 @@ include "./partials/header.html";
         <input type="submit" value="login">
     </form>
     <script src="scripts/signin.js"></script>
-</body>
+    </body>
 
 <?php
 include "./partials/footer.html";

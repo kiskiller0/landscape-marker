@@ -20,6 +20,16 @@ if (!in_array('username', array_keys($_SESSION))) {
     }
 }
 
+
+// sanitization:
+function sanitize($item)
+{
+    return htmlspecialchars($item);
+}
+
+foreach ($_POST as $key => $value) {
+    $_POST[$key] = sanitize($value);
+}
 // checking the uploaded image: (images are mandatory!)
 
 

@@ -1,4 +1,3 @@
 <?php
-
-header("content-type: application/json");
-echo json_encode($_POST);
+echo htmlspecialchars('<h1>title</h1>');
+echo '<h1>title</h1>';

@@ -289,12 +289,13 @@ input:focus {
     display: flex;
     align-items: center;
     gap: 1em;
-    min-height: 40px;
+    min-height: 60px;
     border: 1px solid saddlebrown;
     overflow: hidden;
 }
 
 .userImg {
-    width: 40px;
-    min-height: 40px;
+    width: 50px;
+    min-height: 50px;
+    clip-path: circle(50%);
 }

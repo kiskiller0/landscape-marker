@@ -9,6 +9,17 @@ if (!empty($_SESSION)) {
         die();
     }
 }
+// sanitization:
+function sanitize($item)
+{
+    return htmlspecialchars($item);
+}
+
+foreach ($_POST as $key => $value) {
+    $_POST[$key] = sanitize($value);
+}
+
+
 // including db model:
 include "../models/user.php";
 
@@ -17,6 +28,7 @@ header("Content-type: application/json");
 
 
 // var_dump($u = $User->getByUsername($_POST['username']));
+
 
 $neededAttributes = ['username', 'password'];
 

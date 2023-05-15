@@ -1,6 +1,9 @@
 let globalBlur = document.querySelector(".popup_background");
 
 function makePopup(activateButton, popupWindow, closeButton) {
+    if (activateButton == null || popupWindow == null || closeButton == null) {
+        return
+    }
     closeButton.addEventListener("click", (e) => {
         popupWindow.classList.add("hidden");
         globalBlur.classList.add("hidden");
@@ -15,19 +18,8 @@ function makePopup(activateButton, popupWindow, closeButton) {
 makePopup(document.querySelector("#footer .clickable"), document.querySelector(".blog.popup"), document.querySelector(".blog .controls .clickable"))
 makePopup(document.querySelector("#functions .parameters"), document.querySelector("#parameters.popup"), document.querySelector("#parameters .controls .clickable"))
 
-//refactoring popup logic into a class/function for reusability
 
-class Popup {
-    constructor(className, parentDiv, trigger) {
-        // create a popup: className, and append it to parentDiv, whenever trigger is clicked, it appears
-        t
-    }
-
-    // write just the window decorator, and pass the content as a div, to achieve maximum re-usability!
-    // you can create the content of the blog in the html directly, and capture them here!
-}
-
-// const container = document.querySelector("#content");
+const container = document.querySelector("#content");
 // const content = document.querySelector(".realContent");
 // refactoring the post fetching logic into one class:
 
@@ -38,6 +30,9 @@ class PostSet {
     lastPostIndex = 0; // no need for a function closure now!
     fetchPending = false; // this is to avoid race condition (calling multiple fetchs=> fetch same posts again!
     constructor(div) {
+        if (div == null) {
+            return;
+        }
         this.div = div;
         // if no local posts, fetch!
         // this.getLocalPosts() || this.fetchNext();
@@ -126,7 +121,8 @@ class PostSet {
             userImg.classList.add('userImg')
 
             username.innerHTML = post.user.username
-            userImg.src = `/public/profiles/` + (post.user.picture ? post.userid : 'user.png')
+            // userImg.src = `/public/profiles/` + (post.user.picture ? post.user.username : 'user.png')
+            userImg.src = `/public/profiles/` + (post.user.picture ? post.user.username : 'default/user.png')
 
             userDiv.appendChild(userImg)
             userDiv.appendChild(username)
@@ -165,18 +161,62 @@ const myPosts = new PostSet(document.getElementsByClassName("realContent")[0]);
 // TODO:
 // []- make the render function renders all posts form current index to tha last item
 // no need to make the user wait for locally available data! - useless bottleneck!
-container.addEventListener("scroll", (e) => {
-    // TODO:
-    // []- when the event is triggered, stop listening for 3s, and then re-attach the event
-    // to stop requesting more than one page's worth of posts if you happen to hit the bottom
-    // twice or more before new posts render
-    // []- (maybe) turn the trigger to: hovering over the last element, rather than scrolling down to the last element!
-    if (
-        // scrollTop = scrollHeight - offsetHeight
-        container.scrollTop + container.offsetHeight >
-        container.scrollHeight - 20
-    ) {
-        myPosts.fetchNext();
-        myPosts.render();
-    }
-});
+if (container != null) {
+    container.addEventListener("scroll", (e) => {
+        // TODO:
+        // []- when the event is triggered, stop listening for 3s, and then re-attach the event
+        // to stop requesting more than one page's worth of posts if you happen to hit the bottom
+        // twice or more before new posts render
+        // []- (maybe) turn the trigger to: hovering over the last element, rather than scrolling down to the last element!
+        if (
+            // scrollTop = scrollHeight - offsetHeight
+            container.scrollTop + container.offsetHeight >
+            container.scrollHeight - 20
+        ) {
+            myPosts.fetchNext();
+            myPosts.render();
+        }
+    });
+}
+
+// adding the user img:
+
+fetch('api/whoami.php', {
+    method: 'post'
+})
+    .then(raw => raw.json())
+    .then(jsoned => {
+        document.querySelector('.userImg').src = jsoned.user.picture ? `public/profiles/${jsoned.user.username}` : `public/profiles/default/user.png`;
+    })
+    .catch(err => {
+        console.log(`error fetching profile picture: ${err}`)
+    })
+
+
+// add the serch functionality:
+
+function addSearchFunctionality(textField, searchButton) {
+    searchButton.addEventListener('click', (e) => {
+        let input = textField.value;
+        window.open(window.location.origin + `/api/search/${input}`);
+    })
+
+    textField.addEventListener('keydown', e => {
+        if (e.code != 'Enter') {
+            return
+        }
+        let input = textField.value;
+        window.open(window.location.origin + `/api/search/${input}`);
+    });
+}
+
+// adding it to the search bar
+let searchField = document.querySelector('.search>input');
+let searchIcon = document.querySelector('.bar>i');
+
+if (searchIcon != null && searchField != null) {
+    console.log('added search functionality 1')
+    addSearchFunctionality(searchField, searchIcon)
+} else {
+    console.log(`baka1`)
+}

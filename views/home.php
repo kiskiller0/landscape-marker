@@ -9,7 +9,7 @@ include "views/partials/header.html";
 <div class="page">
     <section id="topbar">
         <div class="home">
-            <img src="" alt="" class="user">
+            <img src="" alt="" class="userImg">
         </div>
         <div class="search">
             <div class="bar">
