@@ -69,6 +69,13 @@ class Post
         $s->execute();
         return $s->fetchAll(); // ? what does it return?
     }
+
+    public function getTitleLike($title)
+    {
+        $s = $this->pdo->prepare("SELECT * FROM post WHERE content LIKE ?");
+        $s->execute(["%$title%"]);
+        return $s->fetchAll();
+    }
 }
 
 $post = new Post();

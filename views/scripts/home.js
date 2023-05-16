@@ -15,9 +15,10 @@ function makePopup(activateButton, popupWindow, closeButton) {
     });
 }
 
-makePopup(document.querySelector("#footer .clickable"), document.querySelector(".blog.popup"), document.querySelector(".blog .controls .clickable"))
+makePopup(document.querySelectorAll("#footer .clickable")[0], document.querySelector("#parameters"), document.querySelector("#parameters .controls .clickable"))
+makePopup(document.querySelectorAll("#footer .clickable")[1], document.querySelector("#add_place"), document.querySelector("#add_place .controls .clickable"))
+makePopup(document.querySelectorAll("#footer .clickable")[2], document.querySelector("#add_event"), document.querySelector("#add_event .controls .clickable"))
 makePopup(document.querySelector("#functions .parameters"), document.querySelector("#parameters.popup"), document.querySelector("#parameters .controls .clickable"))
-
 
 const container = document.querySelector("#content");
 // const content = document.querySelector(".realContent");
@@ -198,7 +199,7 @@ fetch('api/whoami.php', {
 function addSearchFunctionality(textField, searchButton) {
     searchButton.addEventListener('click', (e) => {
         let input = textField.value;
-        window.open(window.location.origin + `/api/search/${input}`);
+        window.open(window.location.origin + `/api/search.php/?search=${input}`);
     })
 
     textField.addEventListener('keydown', e => {
@@ -206,7 +207,7 @@ function addSearchFunctionality(textField, searchButton) {
             return
         }
         let input = textField.value;
-        window.open(window.location.origin + `/api/search/${input}`);
+        window.open(window.location.origin + `/api/search.php/?search=${input}`);
     });
 }
 
@@ -220,3 +221,7 @@ if (searchIcon != null && searchField != null) {
 } else {
     console.log(`baka1`)
 }
+
+
+//TODO:
+// []- search.php: (make them ordered by id)

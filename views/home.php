@@ -19,7 +19,6 @@ include "views/partials/header.html";
         </div>
         <div id="functions">
             <div class="darkmode"><i class="fa-solid fa-moon clickable"></i></div>
-
             <div class="parameters"><i class="fa-solid fa-ellipsis clickable"></i></div>
         </div>
     </section>
@@ -30,7 +29,17 @@ include "views/partials/header.html";
     </section>
 
     <section id="footer">
-        <div class="camera clickable">
+        <div class="functionTrigger clickable">
+            <i class="fa-sharp fa-solid fa-camera-retro"></i>
+            <i class="fa-sharp fa-solid fa-plus"></i>
+        </div>
+
+        <div class="functionTrigger clickable">
+            <i class="fa-sharp fa-solid fa-camera-retro"></i>
+            <i class="fa-sharp fa-solid fa-plus"></i>
+        </div>
+
+        <div class="functionTrigger clickable">
             <i class="fa-sharp fa-solid fa-camera-retro"></i>
             <i class="fa-sharp fa-solid fa-plus"></i>
         </div>
@@ -64,14 +73,38 @@ include "views/partials/header.html";
                 minima officiis optio porro quo sunt ullam.</p>
             <a href="api/logout.php">Logout</a>
         </div>
-
     </div>
+
+
+    <div class="popup hidden" id="add_place">
+        <div class="controls">
+            <i class="fa-solid fa-xmark clickable"></i>
+        </div>
+        <div class="parameters_content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto asperiores commodi maxime
+                minima officiis optio porro quo sunt ullam.</p>
+            <a href="api/logout.php">Logout</a>
+        </div>
+    </div>
+
+    <div class="popup hidden" id="add_event">
+        <div class="controls">
+            <i class="fa-solid fa-xmark clickable"></i>
+        </div>
+        <div class="parameters_content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto asperiores commodi maxime
+                minima officiis optio porro quo sunt ullam.</p>
+            <a href="api/logout.php">Logout</a>
+        </div>
+    </div>
+
     <div class="popup_background hidden"></div>
 </div>
 
 
 <!-- include views/scripts/home.js -->
 <script src="views/scripts/home.js"></script>
+1
 <!-- this is for image preview before sending the post: -->
 <script src="views/scripts/send_post.js"></script>
 </body>

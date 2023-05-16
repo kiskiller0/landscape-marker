@@ -126,7 +126,7 @@ input:focus {
 #footer {
 }
 
-.camera {
+.functionTrigger {
     width: 60px;
     display: flex;
     justify-content: center;
