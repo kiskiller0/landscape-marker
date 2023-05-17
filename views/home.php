@@ -1,6 +1,7 @@
 <?php
 include "views/partials/header.html";
 ?>
+
 <link rel="stylesheet" href="views/style/home.css">
 <title>Home Sweet Home!</title>
 </head>
@@ -44,7 +45,7 @@ include "views/partials/header.html";
             <i class="fa-sharp fa-solid fa-plus"></i>
         </div>
     </section>
-    <div class="popup blog hidden">
+    <div class="popup blog hidden" id="add_post">
         <div class="controls">
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
@@ -81,9 +82,7 @@ include "views/partials/header.html";
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
         <div class="parameters_content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto asperiores commodi maxime
-                minima officiis optio porro quo sunt ullam.</p>
-            <a href="api/logout.php">Logout</a>
+            <p>Add a place:</p>
         </div>
     </div>
 
@@ -92,9 +91,7 @@ include "views/partials/header.html";
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
         <div class="parameters_content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto asperiores commodi maxime
-                minima officiis optio porro quo sunt ullam.</p>
-            <a href="api/logout.php">Logout</a>
+            <p>Add an event</p>
         </div>
     </div>
 
@@ -104,7 +101,6 @@ include "views/partials/header.html";
 
 <!-- include views/scripts/home.js -->
 <script src="views/scripts/home.js"></script>
-1
 <!-- this is for image preview before sending the post: -->
 <script src="views/scripts/send_post.js"></script>
 </body>

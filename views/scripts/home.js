@@ -15,7 +15,7 @@ function makePopup(activateButton, popupWindow, closeButton) {
     });
 }
 
-makePopup(document.querySelectorAll("#footer .clickable")[0], document.querySelector("#parameters"), document.querySelector("#parameters .controls .clickable"))
+makePopup(document.querySelectorAll("#footer .clickable")[0], document.querySelector("#add_post"), document.querySelector("#add_post .controls .clickable"))
 makePopup(document.querySelectorAll("#footer .clickable")[1], document.querySelector("#add_place"), document.querySelector("#add_place .controls .clickable"))
 makePopup(document.querySelectorAll("#footer .clickable")[2], document.querySelector("#add_event"), document.querySelector("#add_event .controls .clickable"))
 makePopup(document.querySelector("#functions .parameters"), document.querySelector("#parameters.popup"), document.querySelector("#parameters .controls .clickable"))
