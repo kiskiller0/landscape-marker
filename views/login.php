@@ -21,6 +21,12 @@ include "./partials/header.html";
 
         <input type="submit" value="login">
     </form>
+
+
+    <div class="msgOverlay hidden">
+        <p class="msg"></p>
+    </div>
+
     <script src="scripts/signin.js"></script>
     </body>
 

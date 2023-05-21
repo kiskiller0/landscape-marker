@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS event;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS place;
 
 
 CREATE TABLE user
@@ -47,8 +49,8 @@ CREATE TABLE place
     id          INT PRIMARY KEY,
     name        VARCHAR(60) UNIQUE NOT NULL,
     description VARCHAR(1000)      NOT NULL,
-    x           DOUBLE(10, 10)     NOT NULL,
-    y           DOUBLE(10, 10)     NOT NULL,
+    latitude    DOUBLE(10, 10)     NOT NULL,
+    longitude   DOUBLE(10, 10)     NOT NULL,
     userid      INT REFERENCES user (id),
     createdAt   DATETIME DEFAULT CURRENT_TIMESTAMP
 
@@ -62,6 +64,8 @@ CREATE TABLE event
     name        VARCHAR(60) UNIQUE NOT NULL,
     description VARCHAR(1000)      NOT NULL,
     userid      INT REFERENCES user (id),
+    # an event takes (place):
+    place       INT REFERENCES place (id),
     createdAt   DATETIME DEFAULT CURRENT_TIMESTAMP,
     date        DATETIME DEFAULT CURRENT_TIMESTAMP
 

@@ -17,7 +17,6 @@ body {
     /* border: 5px solid black; */
     align-items: center;
     gap: 1em;
-    border: 1px solid red;
 }
 
 #topbar {
@@ -146,7 +145,7 @@ input:focus {
 .popup {
     position: absolute;
     width: 70%;
-    height: 40%;
+    height: 500px;
     border: 1px solid black;
     top: 50%;
     transform: translate(0, -50%);
@@ -158,6 +157,10 @@ input:focus {
 
 .popup#parameters.hidden {
     transform: translate(1000px, -1000px);
+}
+
+#add_place textarea {
+    flex-grow: 1;
 }
 
 /* this is supposedly the calculations intensive way, that triggers recalculating layout: */
@@ -186,11 +189,14 @@ input:focus {
 
 /* end of popup styling */
 /*.blog .blog_content {*/
-.blog_content {
+/* TODO */
+.content {
+    /*.blog_content {*/
     border: 1px solid black;
     display: flex;
     flex-direction: column;
     height: 100%;
+    backdrop-filter: blur(20px);
 }
 
 .parameters_content {
@@ -199,21 +205,22 @@ input:focus {
     align-items: center;
 }
 
-.blog .blog_content form {
+.content form {
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
+    height: 100%;
 }
 
-.blog_content textarea {
+.content textarea {
     min-width: 100%;
     max-width: 100%;
     resize: none;
     flex-grow: 1;
 }
 
-.blog_content .file {
+.content .file {
     position: relative;
     display: flex;
     justify-content: center;
@@ -222,22 +229,22 @@ input:focus {
     width: 100%;
 }
 
-.blog_content .file * {
+.content .file * {
     position: absolute;
     width: 80px;
 }
 
-.blog_content .file i {
+.content .file i {
     z-index: -1;
     text-align: center;
     font-size: 60px;
 }
 
-.blog_content .file input {
+.content .file input {
     opacity: 0;
 }
 
-.blog_content input[type="submit"] {
+.content input[type="submit"] {
     padding: 0.2em;
     margin: 1em;
     width: 70px;
@@ -317,4 +324,39 @@ input:focus {
         transform: none;
     }
 
+}
+
+
+.page, .realContent {
+    transition: 1s all ease-in-out;
+}
+
+.page.darkmode {
+    background-color: #444444;
+    color: white;
+}
+
+.page.darkmode .realContent {
+    background-color: #444444;
+    color: white;
+}
+
+.darkmode #topbar {
+    border: 1px solid white;
+}
+
+.darkmode .search {
+    border: 1px solid white;
+}
+
+.darkmode .userDiv, .darkmode .postDate {
+    border: 1px solid white;
+}
+
+.darkmode .controls {
+    color: black;
+}
+
+.darkmode .content {
+    color: black;
 }

@@ -107,6 +107,7 @@ class PostSet {
         // actual rendering to page:
         console.log("rendering ...");
 
+        // TODO: replace this outdated way of rendering with a newer, template-based method
         for (let post of this.content.slice(
             this.lastPostIndex,
             this.content.length
@@ -225,3 +226,45 @@ if (searchIcon != null && searchField != null) {
 
 //TODO:
 // []- search.php: (make them ordered by id)
+
+// add_place
+const addPlaceForm = document.querySelector('#add_place form');
+
+addPlaceForm.addEventListener('submit', e => {
+    e.preventDefault();
+    fetch('./api/add_place.php', {
+        method: 'post',
+        body: new FormData(addPlaceForm)
+    })
+        .then(raw => raw.json())
+        .then(jsoned => {
+            console.log(jsoned)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
+
+// dark mode:
+
+
+const toggle = document.querySelector('.darkmode i');
+let nightMode = "fa-solid fa-moon";
+let dayMode = "fa-solid fa-lightbulb";
+toggle.classList.add(...dayMode.split(' '));
+let state = false;
+
+toggle.addEventListener('click', e => {
+    if (state) {
+        // assume day mode as default?
+        toggle.classList.remove(...nightMode.split(' '));
+        toggle.classList.add(...dayMode.split(' '));
+    } else {
+        toggle.classList.remove(...dayMode.split(' '));
+        toggle.classList.add(...nightMode.split(' '));
+    }
+
+    state = !state;
+
+    document.querySelector('.page').classList.toggle('darkmode');
+})

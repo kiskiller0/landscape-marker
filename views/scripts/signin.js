@@ -1,23 +1,34 @@
-// const btn = document.querySelector('input[type="submit"]');
-// const finput = document.querySelector('input[type="file"]');
-// const img = document.querySelector("form img");
+const msgOverlay = document.querySelector('.msgOverlay');
+const msgBox = document.querySelector('.msg');
 
-// btn.addEventListener("click", (e) => {
-// 	e.preventDefault();
-// 	console.log("form submitted!");
-// 	img.src = finput.value;
-// });
+const form = document.querySelector('form');
 
-const form = document.querySelector('form')
-form.onsubmit((e) => {
+form.addEventListener('submit', e => {
+    console.log(`submitting!`);
     e.preventDefault()
+    f();
+});
+
+function f() {
     fetch('../api/login.php', {
         method: 'post',
-        body: form
+        body: new FormData(form)
     })
         .then(raw => raw.json())
-        .then(json => console.log(json))
+        .then(json => {
+            if (json.error) {
+                msgOverlay.classList.remove('hidden');
+                msgOverlay.classList.add('error');
+                msgBox.innerText = json.msg;
+            } else {
+                // msgOverlay.classList.add('hidden');
+                msgBox.innerText = 'Logged In Successfully!';
+                msgOverlay.classList.remove('error');
+            }
+        })
         .catch(err => {
             console.log(err)
         })
-})
+}
+
+

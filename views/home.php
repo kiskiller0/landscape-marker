@@ -19,7 +19,10 @@ include "views/partials/header.html";
             <input type="text" name="query" placeholder="lookup a landscape!"/>
         </div>
         <div id="functions">
-            <div class="darkmode"><i class="fa-solid fa-moon clickable"></i></div>
+            <div class="darkmode">
+                <!--                <i class="fa-solid fa-moon clickable"></i>-->
+                <i class="clickable"></i>
+            </div>
             <div class="parameters"><i class="fa-solid fa-ellipsis clickable"></i></div>
         </div>
     </section>
@@ -36,12 +39,12 @@ include "views/partials/header.html";
         </div>
 
         <div class="functionTrigger clickable">
-            <i class="fa-sharp fa-solid fa-camera-retro"></i>
+            <i class="fa-solid fa-location-dot"></i>
             <i class="fa-sharp fa-solid fa-plus"></i>
         </div>
 
         <div class="functionTrigger clickable">
-            <i class="fa-sharp fa-solid fa-camera-retro"></i>
+            <i class="fa-solid fa-calendar-days"></i>
             <i class="fa-sharp fa-solid fa-plus"></i>
         </div>
     </section>
@@ -49,7 +52,7 @@ include "views/partials/header.html";
         <div class="controls">
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
-        <div class="blog_content">
+        <div class="blog_content content">
             <form action="api/send_post.php" method="post" enctype="multipart/form-data">
                 <textarea name="content" placeholder="say something"></textarea>
 
@@ -69,7 +72,7 @@ include "views/partials/header.html";
         <div class="controls">
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
-        <div class="parameters_content">
+        <div class="parameters_content content">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto asperiores commodi maxime
                 minima officiis optio porro quo sunt ullam.</p>
             <a href="api/logout.php">Logout</a>
@@ -81,8 +84,32 @@ include "views/partials/header.html";
         <div class="controls">
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
-        <div class="parameters_content">
+        <div class="parameters_content content">
             <p>Add a place:</p>
+
+            <form action="/api/add_place.php" method="post">
+                <label for="name">Name:</label>
+                <input type="text" name="name">
+
+                <div class="coordinates">
+                    <label for="latitude">Latitude</label>
+                    <input type="text" name="latitude">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" name="longitude">
+                </div>
+
+                <label for="description">Description</label>
+                <textarea name="description" placeholder="describe the place"></textarea>
+
+
+                <div class="file">
+                    <input type="file" name="img">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+
+
+                <input type="submit" value="submit">
+            </form>
         </div>
     </div>
 
@@ -90,8 +117,17 @@ include "views/partials/header.html";
         <div class="controls">
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
-        <div class="parameters_content">
-            <p>Add an event</p>
+        <div class="parameters_content content">
+            <form action="api/send_post.php" method="post" enctype="multipart/form-data">
+                <textarea name="content" placeholder="say something"></textarea>
+
+                <div class="file">
+                    <input type="file" name="imgsrc">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+
+                <input type="submit" value="submit">
+            </form>
         </div>
     </div>
 
