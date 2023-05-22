@@ -6,10 +6,10 @@ const form = document.querySelector('form');
 form.addEventListener('submit', e => {
     console.log(`submitting!`);
     e.preventDefault()
-    f();
+    sendLoginInfo();
 });
 
-function f() {
+function sendLoginInfo() {
     fetch('../api/login.php', {
         method: 'post',
         body: new FormData(form)

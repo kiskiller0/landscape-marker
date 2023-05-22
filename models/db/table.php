@@ -1,5 +1,14 @@
 <?php
 
+//namespace table;
+//use table;
+
+define("EQ", '=');
+define("GT", '>');
+define("GTE", '>=');
+define("LT", '<');
+define("LTE", '<=');
+
 class Table
 {
     public $name;
@@ -8,8 +17,9 @@ class Table
     protected $host = 'localhost';
     protected $db = 'learning';
     protected $pdo;
-    protected $needed_fields; // an array containing all the fields of the table; //don't add id and data (auto_inserted by db)
+    protected $needed_fields; // an array containing all the fields of the table; //don't add id and date ... (fields that are auto_inserted by db)
     protected $unique_fields;
+
 
     public function __construct($name, $needed_fields, $unique_fields)
     {
@@ -21,6 +31,9 @@ class Table
 
     public function addNew($arr = null)
     {
+        if (!$arr || !count($arr)) {
+            return ['error' => true, 'msg' => 'do no send me empty arrays!'];
+        }
         // this check should be not be done here?
         foreach ($this->needed_fields as $key) {
             // the presence of values should be tested in the api endpoint that receives the post request?
@@ -73,7 +86,7 @@ class Table
     //public function getByUniqueValue($key, $value); // $key is the name of the field ex: getByUniqueValue("id", 5);
     // ex: getByUniqueValue("username", "aymenIsHomo321");
 
-    public function getByUniqueValue($key, $value)
+    public function getByUniqueValue(string $key, string $value)
     {
         if (!in_array($key, $this->unique_fields)) {
             return ['error' => true, 'msg' => $key . ' is not a unique key in the table, does it even exist?'];
@@ -95,6 +108,14 @@ class Table
 
         return ['error' => $error, 'msg' => $msg];
     }
+
+    public function getByField($key, $value, $mode)
+    {
+        echo sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode);
+        return;
+        $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode));
+        $s->execute([$value]);
+    }
 }
 
 //
@@ -105,3 +126,5 @@ $testTable = new Table('comment', ['username', 'email', 'password', 'first_name'
 var_dump(
     $testTable->addNew()
 );
+
+$testTable->getByField('age', '16', GTE);
