@@ -1,19 +1,17 @@
 <?php
 
-class Post
+require_once "table.php";
+
+class Post extends Table
 {
-    private $dsn;
-    private $db = "learning";
-    private $host = "localhost";
-    private $username = "root";
-    private $password = 'bader';
-    private $pdo;
     private $batch = 2; // number of posts to fetch per page (pagination)
 
-    public function __construct()
+    public function __construct($name, $needed_fields, $unique_fields)
     {
-        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
-        $this->pdo = new PDO($this->dsn, $this->username, $this->password);
+        parent::__construct($name, $needed_fields, $unique_fields);
+//        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
+//        $this->pdo = new PDO($this->dsn, $this->username, $this->password);
+
     }
 
     public function getByUserid($userid)
@@ -78,4 +76,4 @@ class Post
     }
 }
 
-$post = new Post();
+$post = new Post("post", ['content', 'userid'], ['id']);

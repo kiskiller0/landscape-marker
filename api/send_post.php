@@ -52,6 +52,7 @@ if (!in_array('imgsrc', array_keys($_FILES)) || !$_FILES['imgsrc']['type'] || co
         } else {
             echo json_encode(['error' => true, 'msg' => 'post not created!']);
         }
+        // TODO: move the file moving code inside the if statment, before returning json
         // [*]-do the upload and name assignment
         $fpath = "../public/posts/";
         $fpath .= $lastPost ? (int)$lastPost['id'] : 1;

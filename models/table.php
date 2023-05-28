@@ -3,11 +3,23 @@
 //namespace table;
 //use table;
 
+//die('table included successfully!');
+
 define("EQ", '=');
 define("GT", '>');
 define("GTE", '>=');
 define("LT", '<');
 define("LTE", '<=');
+
+
+enum MODE: string
+{
+    case EQ = '=';
+    case GT = '>';
+    case GTE = '>=';
+    case LT = '<';
+    case LTE = '<=';
+}
 
 class Table
 {
@@ -73,12 +85,6 @@ class Table
     //public function getByUniqueField($field)
     //public function getLastInsertedId()
     // TODO : think of a more generalized way of passing this part: older/bigger than, or equal ... like passing flags
-    //public function getIdBiggerThan
-    // => becomes: getById(4, BIGGER_THAN);
-    // => becomes: getById(4, EQUAL); // this slightly alters the return value from $s->fetchAll, to $s->fetch
-    // => becomes: getById(4, BIGGER_THAN_EQUAL);
-    // => becomes: getById(4, SMALLER_THAN);
-    // => becomes: getById(4, SMALLER_THAN_EQUAL);
 
     // the only problem is namespace pollution
     // idea! : use namespaces!
@@ -111,10 +117,22 @@ class Table
 
     public function getByField($key, $value, $mode)
     {
-        echo sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode);
-        return;
+//        echo sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode);
+//        return;
         $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode));
         $s->execute([$value]);
+
+        $error = true;
+        $msg = 'no records fetched!';
+        $data = [];
+        
+        if ($fetched = $s->fetchAll()) {
+            $error = false;
+            $msg = 'success';
+            $data = $fetched;
+        }
+
+        return ['error' => $error, 'msg' => $msg, 'data' => $data];
     }
 }
 
@@ -122,9 +140,11 @@ class Table
 //$comment = new Table('comment');
 //var_dump($comment->getUniqueId(2));
 
-$testTable = new Table('comment', ['username', 'email', 'password', 'first_name', 'last_name'], ['username', 'email']);
-var_dump(
-    $testTable->addNew()
-);
+//$testTable = new Table('comment', ['username', 'email', 'password', 'first_name', 'last_name'], ['username', 'email']);
+//var_dump(
+//    $testTable->addNew()
+//);
 
-$testTable->getByField('age', '16', GTE);
+//$testTable->getByField('age', '16', GTE);
+
+

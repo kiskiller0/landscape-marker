@@ -15,7 +15,7 @@ CREATE TABLE user
     id         INT PRIMARY KEY AUTO_INCREMENT,
     username   VARCHAR(25) UNIQUE NOT NULL,
     password   VARCHAR(25)        NOT NULL,
-    picture    VARCHAR(35) DEFAULT 'user.png',
+    picture    BOOLEAN DEFAULT FALSE,
     email      VARCHAR(25) UNIQUE NOT NULL,
     first_name VARCHAR(60)        NOT NULL,
     last_name  VARCHAR(60)        NOT NULL
@@ -37,7 +37,6 @@ CREATE TABLE comment
     userid  INT REFERENCES user (id),
     postid  INT REFERENCES post (id),
     content VARCHAR(255),
-    -- should be as long as a uuid
     date    DATETIME DEFAULT CURRENT_TIMESTAMP
 
 );
