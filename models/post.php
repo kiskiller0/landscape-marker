@@ -1,6 +1,6 @@
 <?php
 
-require_once "table.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/models/table.php";
 
 class Post extends Table
 {

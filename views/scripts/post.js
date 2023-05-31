@@ -1,6 +1,5 @@
 const commentForm = document.querySelector('form')
 
-
 commentForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -16,3 +15,37 @@ commentForm.addEventListener('submit', e => {
             console.log(jsoned)
         });
 })
+
+
+// fetch userdata:
+
+let ids = document.querySelectorAll('.by');
+let imgs = document.querySelectorAll('.comment img');
+let usernames = document.querySelectorAll('.comment .username');
+
+for (let i = 0; i <= ids.length; i++) {
+    let currentId = ids[i];
+    console.log(currentId.innerHTML);
+
+    // fetch current id data:
+    let f = new FormData();
+    f.append('id', currentId.innerHTML);
+
+    fetch("../../api/get_user_data_by_id.php", {
+        method: 'post',
+        body: f
+    })
+        .then(raw => raw.json())
+        .then(json => {
+            console.log(json)
+
+            // here goes the rendering:
+            console.log(json);
+            usernames[i].innerHTML = json['msg']['username'];
+            imgs[i].src = json['picture'] ? `../../public/profiles/${json['username']}}` : `../../public/profiles/default/user.png`;
+        })
+        .catch(err => {
+            console.log(`error: ${err}`);
+        })
+}
+// let id = document.querySelectorAll('.by').innerHTML;

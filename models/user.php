@@ -1,20 +1,21 @@
 <?php
 
-class user
+require_once $_SERVER['DOCUMENT_ROOT'] . "/models/table.php";
+
+class user extends Table
 {
-    private $dsn;
-    private $db = "learning";
-    private $host = "localhost";
-    private $username = "root";
-    private $password = 'bader';
-    private $pdo;
+//    private $dsn;
+//    private $db = "learning";
+//    private $host = "localhost";
+//    private $username = "root";
+//    private $password = 'bader';
+//    private $pdo;
     private $minUsernameLength = 4;
     private $minPasswordLength = 4;
 
-    public function __construct()
+    public function __construct($name, $needed_fields, $unique_fields)
     {
-        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
-        $this->pdo = new PDO($this->dsn, $this->username, $this->password);
+        parent::__construct($name, $needed_fields, $unique_fields);
     }
 
     public function getByUsername($username)
@@ -114,5 +115,6 @@ class user
     #TODO: profile pic is just a boolean: true of fals, if true fetch /public/profiles/username.png else fetch default.png
 }
 
-$User = new user();
+$User = new user("user", ['username', 'email', 'password', 'picture'], ['id', 'username', 'email']);
 // var_dump($User->addUser($_POST));
+// TODO: add first_name and last_name and update the table scheme in sql, and account for changes in the login/signup apis

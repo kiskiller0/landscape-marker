@@ -22,8 +22,15 @@ function sendLoginInfo() {
                 msgBox.innerText = json.msg;
             } else {
                 // msgOverlay.classList.add('hidden');
+                msgOverlay.classList.remove('hidden');
                 msgBox.innerText = 'Logged In Successfully!';
                 msgOverlay.classList.remove('error');
+
+                console.log(`now you are being redirected ...`);
+
+                setTimeout(() => {
+                    window.location = '../..';
+                }, 1500)
             }
         })
         .catch(err => {

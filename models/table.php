@@ -56,6 +56,9 @@ class Table
 
         // checking if its unique fields clash with existing fields
         foreach ($this->unique_fields as $key) {
+            if (!in_array($key, array_keys($arr))) {
+                continue;
+            }
             $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s = ?", $this->name, $key));
             $s->execute([$arr[$key]]);
             if ($s->fetch()) {
@@ -71,7 +74,27 @@ class Table
                 implode(',', str_split(str_repeat('?', count($this->needed_fields)), 1))
             ));
 
-        if ($s->execute($arr)) {
+
+        $sql = sprintf(
+            "INSERT INTO %s(%s) VALUES(%s)",
+            $this->name,
+            implode(',', $this->needed_fields),
+            implode(',', str_split(str_repeat('?', count($this->needed_fields)), 1))
+        );
+
+//        die(json_encode([$sql, $arr]));
+
+        // TODO: add try except here in order to avoid errors!
+
+        // FIX: the current error is the result of arg missmatch, the order of elements in $arr, is not the same in $needed_fields
+//        if ($s->execute($arr)) {
+
+
+//        die(json_encode([$sql, Table::extractArrayFromAssoc($this->needed_fields, $arr)]));
+
+// array_map(extractArrayFromAssoc($this->needed_fields, $arr), $this->needed_fields)
+        $orderedArray = Table::extractArrayFromAssoc($this->needed_fields, $arr);
+        if ($s->execute($orderedArray)) {
             return ['error' => false, 'msg' => sprintf("recorde: %s \ncreated successfully", json_encode($arr))];
         } else {
             return ['error' => true, 'msg' => 'something happened, debug your code!'];
@@ -97,11 +120,14 @@ class Table
         if (!in_array($key, $this->unique_fields)) {
             return ['error' => true, 'msg' => $key . ' is not a unique key in the table, does it even exist?'];
         }
+        if ($key == 'iddd')
+            return ['error' => true, 'sql' => sprintf("SELECT * FROM %s WHERE %s = ?", $this->name, $key), 'value' => $value];
 
         // checking if its unique fields clash with existing fields
         $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s = ?", $this->name, $key));
         $s->execute([$value]);
         $record = $s->fetch();
+
 
         $error = false;
 
@@ -125,7 +151,7 @@ class Table
         $error = true;
         $msg = 'no records fetched!';
         $data = [];
-        
+
         if ($fetched = $s->fetchAll()) {
             $error = false;
             $msg = 'success';
@@ -134,6 +160,19 @@ class Table
 
         return ['error' => $error, 'msg' => $msg, 'data' => $data];
     }
+
+    public static function extractArrayFromAssoc($needed, $assoc)
+    {
+        $result = [];
+        foreach ($needed as $key) {
+            array_push($result, $assoc[$key]);
+        }
+
+        return $result;
+    }
+
+    // TODO: create a getByFields function that takes an array of arrays: getByFields(['id', 5, GT], ['username', 'kiskiller0', NEQ] ....);
+    // and builds a complex query that returns records according to all the passed conditions
 }
 
 //

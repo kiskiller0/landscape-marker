@@ -151,7 +151,7 @@ class PostSet {
             postContainer.appendChild(document.createElement('hr'))
 
             this.div.appendChild(postContainer)
-
+            // TODO: I'm going to alter this rendering method
         }
 
         this.lastPostIndex = this.content.length;
