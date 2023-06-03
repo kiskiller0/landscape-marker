@@ -27,9 +27,22 @@ include "views/partials/header.html";
         </div>
     </section>
 
+    <div id="navigation_bar">
+        <i class="clickable">posts</i>
+        <i class="clickable">places</i>
+        <i class="clickable">events</i>
+    </div>
 
     <section id="content">
         <div class="realContent"></div>
+        <!--        only one of theese three sections need to be toggled at time-->
+        <div class="realContent2 hidden">
+            <p>places</p>
+        </div>
+
+        <div class="realContent3 hidden">
+            <p>events</p>
+        </div>
     </section>
 
     <section id="footer">
@@ -72,9 +85,8 @@ include "views/partials/header.html";
         <div class="controls">
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
-        <div class="parameters_content content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto asperiores commodi maxime
-                minima officiis optio porro quo sunt ullam.</p>
+        <div class="parameters_content content logout">
+            <p>يـا الرايــــح ويـــن مسافـر تـروح تعيا و تــولي</p>
             <a href="api/logout.php">Logout</a>
         </div>
     </div>
@@ -87,7 +99,9 @@ include "views/partials/header.html";
         <div class="parameters_content content">
             <p>Add a place:</p>
 
-            <form action="/api/add_place.php" method="post">
+            <!--            <form action="/api/add_place.php" method="post">-->
+            <!--                <form action="/api/test.php" method="post" enctype="multipart/form-data">-->
+            <form action="/api/add_place.php" method="post" enctype="multipart/form-data">
                 <label for="name">Name:</label>
                 <input type="text" name="name">
 
@@ -103,7 +117,7 @@ include "views/partials/header.html";
 
 
                 <div class="file">
-                    <input type="file" name="img">
+                    <input type="file" name="imgsrc">
                     <i class="fa-regular fa-image"></i>
                 </div>
 

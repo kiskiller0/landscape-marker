@@ -3,8 +3,8 @@
 
 if (!empty($_GET) && in_array('search', array_keys($_GET))) {
     echo "you want to look for '" . $_GET['search'] . "'<br><hr>";
-    if (strlen($_GET['search']) < 4) {
-        die('search starts from 4 letters!');
+    if (strlen($_GET['search']) < 3) {
+        die('search starts from 3 letters!');
     }
 } else {
     echo "screw you!";

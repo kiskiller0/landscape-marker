@@ -4,6 +4,14 @@ function makePopup(activateButton, popupWindow, closeButton) {
     if (activateButton == null || popupWindow == null || closeButton == null) {
         return
     }
+
+    // switch (null) {
+    //     case activateButton:
+    //     case popupWindow:
+    //     case closeButton:
+    //         return;
+    // }
+
     closeButton.addEventListener("click", (e) => {
         popupWindow.classList.add("hidden");
         globalBlur.classList.add("hidden");
@@ -25,15 +33,18 @@ const container = document.querySelector("#content");
 // refactoring the post fetching logic into one class:
 
 class PostSet {
+
+    // TODO: []- make the logic go idle if the div is "hidden" #urgent
+    // or else, scrolling down the posts div would trigger the places to fetch new places
     content = [];
-    api = "api/get_posts.php";
     div = null; // where posts are gonna be injected/rendered as html elements
     lastPostIndex = 0; // no need for a function closure now!
     fetchPending = false; // this is to avoid race condition (calling multiple fetchs=> fetch same posts again!
-    constructor(div) {
+    constructor(div, api) {
         if (div == null) {
             return;
         }
+        this.api = api;
         this.div = div;
         // if no local posts, fetch!
         // this.getLocalPosts() || this.fetchNext();
@@ -113,6 +124,11 @@ class PostSet {
             this.content.length
         )) {
 
+            console.log(`post link: ../../views/post.php?id=${post['id']}`);
+
+            let a = document.createElement('a');
+            a.href = `../../views/post.php?id=${post['id']}`;
+
             let userDiv = document.createElement('div')
             userDiv.classList.add('userDiv')
 
@@ -150,15 +166,17 @@ class PostSet {
             postContainer.appendChild(postDate)
             postContainer.appendChild(document.createElement('hr'))
 
-            this.div.appendChild(postContainer)
+            // this.div.appendChild(postContainer)
             // TODO: I'm going to alter this rendering method
+            a.appendChild(postContainer);
+            this.div.appendChild(a);
         }
 
         this.lastPostIndex = this.content.length;
     }
 }
 
-const myPosts = new PostSet(document.getElementsByClassName("realContent")[0]);
+const myPosts = new PostSet(document.getElementsByClassName("realContent")[0], "api/get_posts.php");
 
 // TODO:
 // []- make the render function renders all posts form current index to tha last item
@@ -230,20 +248,44 @@ if (searchIcon != null && searchField != null) {
 // add_place
 const addPlaceForm = document.querySelector('#add_place form');
 
+// addPlaceForm.addEventListener('submit', e => {
+//     e.preventDefault();
+//     fetch('./api/add_place.php', {
+//         method: 'post',
+//         body: new FormData(addPlaceForm)
+//     })
+//         .then(raw => raw.json())
+//         .then(jsoned => {
+//             console.log(jsoned)
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         })
+// });
+
+
 addPlaceForm.addEventListener('submit', e => {
     e.preventDefault();
     fetch('./api/add_place.php', {
         method: 'post',
         body: new FormData(addPlaceForm)
     })
-        .then(raw => raw.json())
+        .then(response => response.json())
         .then(jsoned => {
-            console.log(jsoned)
+            console.log('Response as JSON:', jsoned);
+            // console.log('Response as Text:', textData);
+
+            if (jsoned['error']) {
+                alert(`error: ${jsoned['msg']}`);
+            } else {
+                location.reload();
+            }
         })
         .catch(err => {
             console.log(err);
-        })
+        });
 });
+
 
 // dark mode:
 
@@ -268,3 +310,37 @@ toggle.addEventListener('click', e => {
 
     document.querySelector('.page').classList.toggle('darkmode');
 })
+
+
+// redirecting the user after sending the form:
+
+document.querySelector("#add_post form").addEventListener('submit', e => {
+    location.reload();
+})
+
+
+function getCreateTogglable(previous = 0) {
+
+    function createTogglable(toggles, cards) {
+        // the premise:
+        // toggles[i] switches the class of cards[i] from from hidden to shown and hides the previously shown card
+        // TODO:
+        // [/]- add dummy cards, and style them on top of each others
+        // []- whenever you think you neeed external motivation to dive in and do a project
+        // rememver that you can just dive and start coding the functionality and expect your intuition and flow state to
+        // just kick in!
+
+        for (let i = 0; i < toggles.length; i++) {
+            toggles[i].addEventListener('click', e => {
+                console.log(i);
+                cards[previous].classList.add('hidden');
+                cards[i].classList.remove('hidden');
+                previous = i;
+            })
+        }
+    }
+
+    return createTogglable;
+}
+
+getCreateTogglable()(document.querySelectorAll('#navigation_bar > i'), document.querySelectorAll('#content > div'));

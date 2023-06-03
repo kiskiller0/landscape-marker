@@ -163,6 +163,7 @@ class Table
 
     public static function extractArrayFromAssoc($needed, $assoc)
     {
+        // TODO: remove this and use the built in array_intersect
         $result = [];
         foreach ($needed as $key) {
             array_push($result, $assoc[$key]);
@@ -171,19 +172,38 @@ class Table
         return $result;
     }
 
+    public function getLastInserted()
+    {
+        $s = $this->pdo->prepare(sprintf("SELECT * FROM %s ORDER BY id DESC LIMIT 1", $this->name));
+        $s->execute();
+
+        $error = true;
+        $msg = 'no records fetched!';
+        $data = [];
+
+        if ($fetched = $s->fetch()) {
+            $error = false;
+            $msg = 'success';
+            $data = $fetched;
+        }
+
+        return ['error' => $error, 'msg' => $fetched];
+    }
+
+
+    public function getUniqueFields(): array
+    {
+        return $this->unique_fields;
+    }
+
+    public function getNeededFields(): array
+    {
+        return $this->needed_fields;
+    }
+
     // TODO: create a getByFields function that takes an array of arrays: getByFields(['id', 5, GT], ['username', 'kiskiller0', NEQ] ....);
     // and builds a complex query that returns records according to all the passed conditions
 }
 
-//
-//$comment = new Table('comment');
-//var_dump($comment->getUniqueId(2));
-
-//$testTable = new Table('comment', ['username', 'email', 'password', 'first_name', 'last_name'], ['username', 'email']);
-//var_dump(
-//    $testTable->addNew()
-//);
-
-//$testTable->getByField('age', '16', GTE);
 
 

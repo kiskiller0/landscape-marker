@@ -45,7 +45,7 @@ CREATE TABLE comment
 CREATE TABLE place
 (
 
-    id          INT PRIMARY KEY,
+    id          INT PRIMARY KEY AUTO_INCREMENT,
     name        VARCHAR(60) UNIQUE NOT NULL,
     description VARCHAR(1000)      NOT NULL,
     latitude    DOUBLE(10, 10)     NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE place
 CREATE TABLE event
 (
 
-    id          INT PRIMARY KEY,
+    id          INT PRIMARY KEY AUTO_INCREMENT,
     name        VARCHAR(60) UNIQUE NOT NULL,
     description VARCHAR(1000)      NOT NULL,
     userid      INT REFERENCES user (id),

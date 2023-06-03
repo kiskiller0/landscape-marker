@@ -12,7 +12,8 @@ commentForm.addEventListener('submit', e => {
     })
         .then(raw => raw.json())
         .then(jsoned => {
-            console.log(jsoned)
+            console.log(jsoned);
+            location.reload();
         });
 })
 
@@ -23,7 +24,7 @@ let ids = document.querySelectorAll('.by');
 let imgs = document.querySelectorAll('.comment img');
 let usernames = document.querySelectorAll('.comment .username');
 
-for (let i = 0; i <= ids.length; i++) {
+for (let i = 0; i < ids.length; i++) {
     let currentId = ids[i];
     console.log(currentId.innerHTML);
 
@@ -42,7 +43,7 @@ for (let i = 0; i <= ids.length; i++) {
             // here goes the rendering:
             console.log(json);
             usernames[i].innerHTML = json['msg']['username'];
-            imgs[i].src = json['picture'] ? `../../public/profiles/${json['username']}}` : `../../public/profiles/default/user.png`;
+            imgs[i].src = json['msg']['picture'] ? `../../public/profiles/${json['msg']['username']}` : `../../public/profiles/default/user.png`;
         })
         .catch(err => {
             console.log(`error: ${err}`);
