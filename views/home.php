@@ -9,9 +9,12 @@ include "views/partials/header.html";
 <body>
 <div class="page">
     <section id="topbar">
-        <div class="home">
-            <img src="" alt="" class="userImg">
-        </div>
+        <a href="">
+            <div class="home">
+
+                <img src="" alt="" class="userImg">
+            </div>
+        </a>
         <div class="search">
             <div class="bar">
                 <i class="fa-solid fa-magnifying-glass clickable"></i>

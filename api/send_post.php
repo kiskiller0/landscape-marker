@@ -6,6 +6,7 @@
 
 session_start();
 
+
 header('content-type: application/json');
 include "../models/post.php";
 
@@ -21,15 +22,18 @@ if (!in_array('username', array_keys($_SESSION))) {
 }
 
 
-// sanitization:
-function sanitize($item)
-{
-    return htmlspecialchars($item);
+$needed_fields = ['content']; // the needed_fields field does contain userid
+
+// checking the presence of all fields
+// and sanitizing the $_POST array
+foreach ($needed_fields as $field) {
+    $_POST[$field] = htmlspecialchars($_POST[$field]);
+    if (!in_array($field, array_keys($_POST)) || trim($_POST[$field]) == '') {
+        die(json_encode(['error' => true, 'msg' => $field . ' does not exists']));
+    }
 }
 
-foreach ($_POST as $key => $value) {
-    $_POST[$key] = sanitize($value);
-}
+
 // checking the uploaded image: (images are mandatory!)
 
 

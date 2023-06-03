@@ -50,15 +50,29 @@ $poster = $poster['msg'];
 
 echo "<div class='post'>";
 echo sprintf(
-    "<div class='userDiv'>
-                <div class='userImg'>
-                    <img src='%s' alt='user profile picture'>
-                </div>
+    "<a href='%s'>
+                <div class='userDiv'>
+                    <div class='userImg'>
+                        <img src='%s' alt='user profile picture'>
+                    </div>
                 <div class='username'>%s</div>
-            </div>"
-    ,
+            </div></a>"
+    , "../views/user.php?id=" . $poster['id'],
     $poster['picture'] ? '../../public/profiles/' . $poster['username'] : '../../public/profiles/default/user.png',
     $poster['username']);
+
+
+//echo sprintf(
+//    "<div class='userDiv'>
+//                <div class='userImg'>
+//                    <img src='%s' alt='user profile picture'>
+//                </div>
+//                <div class='username'>%s</div>
+//            </div>"
+//    ,
+//    $poster['picture'] ? '../../public/profiles/' . $poster['username'] : '../../public/profiles/default/user.png',
+//    $poster['username']);
+
 echo sprintf("<p class='postContent'>%s</p>", $wantedPost['content']);
 echo sprintf("<img  src='%s' alt='postImg'>", '../../public/posts/' . $wantedPost['id']);
 echo sprintf("<p class='postDate'>%s</p>", $wantedPost['date']);
@@ -79,10 +93,6 @@ echo "<hr>";
     <?php
     function renderComment($comment)
     {
-//        var_dump($comment);
-//        echo "<hr><br>";
-//        return;
-
         echo '<div class="comment">';
         echo "<div class='userDiv'>";
         echo "<img alt='an image of the user'/>";
@@ -97,11 +107,6 @@ echo "<hr>";
     if (!$comments['error'] && count($comments['data'])) {
         // show all comments:
         foreach ($comments['data'] as $comment) {
-//            echo '<div class="comment">';
-//            echo sprintf("<p>%s</p>", $comment['content']);
-//            echo sprintf("<p>by: %s</p>", $comment['userid']);
-//            echo sprintf("<p>at: %s</p>", $comment['date']);
-//            echo '</div>';
             renderComment($comment);
         }
     } else {
@@ -110,7 +115,6 @@ echo "<hr>";
         } else {
             echo "no comments, be the first!";
         }
-//        var_dump($_SESSION);
     }
     ?>
 </div>

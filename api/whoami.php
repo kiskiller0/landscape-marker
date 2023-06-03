@@ -9,7 +9,7 @@ if (empty($_SESSION) || !in_array('username', array_keys($_SESSION)) || !($user 
 }
 
 
-$neededFields = ['username', 'email', 'picture'];
+$neededFields = ['id', 'username', 'email', 'picture'];
 $neededInfo = [];
 
 foreach ($neededFields as $field) {

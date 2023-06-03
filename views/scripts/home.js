@@ -36,6 +36,7 @@ class PostSet {
 
     // TODO: []- make the logic go idle if the div is "hidden" #urgent
     // or else, scrolling down the posts div would trigger the places to fetch new places
+    // add an argument (trigger
     content = [];
     div = null; // where posts are gonna be injected/rendered as html elements
     lastPostIndex = 0; // no need for a function closure now!
@@ -60,6 +61,10 @@ class PostSet {
     }
 
     fetchNext(url = this.api) {
+        if (this.div.classList.contains("hidden")) {
+            console.log(`the tab that fetches from ${this.api} is hidden!`);
+            return;
+        }
         if (this.fetchPending) {
             return;
         }
@@ -207,6 +212,7 @@ fetch('api/whoami.php', {
     .then(raw => raw.json())
     .then(jsoned => {
         document.querySelector('.userImg').src = jsoned.user.picture ? `public/profiles/${jsoned.user.username}` : `public/profiles/default/user.png`;
+        document.querySelector("#topbar > a").href = `views/user.php?id=${jsoned.user.id}`;
     })
     .catch(err => {
         console.log(`error fetching profile picture: ${err}`)
@@ -247,22 +253,6 @@ if (searchIcon != null && searchField != null) {
 
 // add_place
 const addPlaceForm = document.querySelector('#add_place form');
-
-// addPlaceForm.addEventListener('submit', e => {
-//     e.preventDefault();
-//     fetch('./api/add_place.php', {
-//         method: 'post',
-//         body: new FormData(addPlaceForm)
-//     })
-//         .then(raw => raw.json())
-//         .then(jsoned => {
-//             console.log(jsoned)
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-// });
-
 
 addPlaceForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -344,3 +334,29 @@ function getCreateTogglable(previous = 0) {
 }
 
 getCreateTogglable()(document.querySelectorAll('#navigation_bar > i'), document.querySelectorAll('#content > div'));
+
+
+class PlacesSet extends PostSet {
+
+    constructor(...args) {
+        super(...args);
+    }
+
+}
+
+
+class EventsSet extends PostSet {
+
+    constructor(...args) {
+        super(...args);
+    }
+
+}
+
+
+new PlacesSet(document.getElementsByClassName("realContent2")[0], "api/get_posts.php");
+
+
+new PlacesSet(document.getElementsByClassName("realContent3")[0], "api/get_posts.php");
+
+

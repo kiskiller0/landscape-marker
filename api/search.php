@@ -1,4 +1,5 @@
 <?php
+// this should be in views
 
 
 if (!empty($_GET) && in_array('search', array_keys($_GET))) {
@@ -52,12 +53,12 @@ $posts = array_map('filterPosts', $post->getTitleLike($_GET['search']));
             <h2>posts:</h2>
             <?php
             foreach ($posts as $p) {
+                echo sprintf("<a href=\"../../views/post.php?id=%s\">", $p['id']);
                 echo "<div class=\"post\">";
                 echo "<img src=\"../../public/posts/" . $p['id'] . "\" />";
                 echo "<p>" . $p['content'], '</p>';
-//                var_dump($p);
                 echo "</div>";
-
+                echo sprintf("</a>");
                 echo "<hr>";
             }
             ?>
@@ -67,7 +68,10 @@ $posts = array_map('filterPosts', $post->getTitleLike($_GET['search']));
 
             <?php
             foreach ($users as $u) {
-                var_dump($u);
+                echo sprintf("<a href='../../views/user.php?id=%s'>", $u['id']);
+                echo sprintf("<img src='%s' alt='%s\'s profile picture'/>", $u['picture'] ? '../../public/profiles/' . $u['username'] : '../../public/profiles/default/user.png', $u['username']);
+                echo sprintf("<p>%s</p>", $u['username']);
+                echo sprintf("</a>");
                 echo "<hr>";
             }
             ?>
