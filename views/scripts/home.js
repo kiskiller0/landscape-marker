@@ -248,6 +248,7 @@ addPlaceForm.addEventListener('submit', e => {
             if (jsoned['error']) {
                 alert(`error: ${jsoned['msg']}`);
             } else {
+                console.log('reloading!...');
                 location.reload();
             }
         })

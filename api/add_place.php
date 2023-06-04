@@ -50,7 +50,7 @@ if (!in_array('imgsrc', array_keys($_FILES)) || !$_FILES['imgsrc']['type'] || co
         if (!move_uploaded_file($_FILES['imgsrc']['tmp_name'], $fpath)) {
             die(json_encode(['error' => true, 'msg' => 'could not upload picture']));
         } else {
-            die(json_encode(['error' => false, 'msg' => 'success']));
+            echo(json_encode(['error' => false, 'msg' => 'success']));
         }
     }
 }
