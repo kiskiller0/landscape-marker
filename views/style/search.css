@@ -25,6 +25,9 @@
     gap: .6em;
 }
 
+.users img {
+    width: 70px;
+}
 
 .post {
     display: flex;
