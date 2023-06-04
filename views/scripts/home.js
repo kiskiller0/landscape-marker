@@ -183,26 +183,6 @@ class PostSet {
 
 const myPosts = new PostSet(document.getElementsByClassName("realContent")[0], "api/get_posts.php");
 
-// TODO:
-// []- make the render function renders all posts form current index to tha last item
-// no need to make the user wait for locally available data! - useless bottleneck!
-if (container != null) {
-    container.addEventListener("scroll", (e) => {
-        // TODO:
-        // []- when the event is triggered, stop listening for 3s, and then re-attach the event
-        // to stop requesting more than one page's worth of posts if you happen to hit the bottom
-        // twice or more before new posts render
-        // []- (maybe) turn the trigger to: hovering over the last element, rather than scrolling down to the last element!
-        if (
-            // scrollTop = scrollHeight - offsetHeight
-            container.scrollTop + container.offsetHeight >
-            container.scrollHeight - 20
-        ) {
-            myPosts.fetchNext();
-            myPosts.render();
-        }
-    });
-}
 
 // adding the user img:
 
@@ -342,21 +322,201 @@ class PlacesSet extends PostSet {
         super(...args);
     }
 
-}
+    render() {
+        console.log(this.api);
+        console.log(this.content);
 
 
-class EventsSet extends PostSet {
+        // this is supposed to render this.posts to this.div
+        // for testing reasons, it is just going to print from last post!
+        console.log("rendering ...");
+        if (this.content.length === this.lastPostIndex) {
+            return;
+        }
 
-    constructor(...args) {
-        super(...args);
+        console.log(this.content.slice(this.lastPostIndex, this.content.length));
+
+        // actual rendering to page:
+        console.log("rendering ...");
+
+        // TODO: replace this outdated way of rendering with a newer, template-based method
+        for (let post of this.content.slice(
+            this.lastPostIndex,
+            this.content.length
+        )) {
+
+            console.log(post);
+            console.log(`post link: ../../views/post.php?id=${post['id']}`);
+
+            let a = document.createElement('a');
+            a.href = `../../views/place.php?id=${post['id']}`;
+
+            let place = document.createElement('div')
+            place.classList.add('userDiv')
+
+            let username = document.createElement('p')
+            username.classList.add('username')
+
+            let photo = document.createElement('img')
+            photo.classList.add('userImg')
+
+            // description.innerHTML = post.user.description
+            username.innerHTML = post.user.username
+            // userImg.src = `/public/profiles/` + (post.user.picture ? post.user.username : 'user.png')
+            // photo.src = `/public/places/${post.id}`;
+            photo.src = `/public/profiles/` + (post.user.picture ? post.user.username : 'default/user.png')
+
+            place.appendChild(photo)
+            place.appendChild(username)
+
+            let postContent = document.createElement('p')
+            postContent.innerHTML = post.description || "no description!";
+            postContent.classList.add('description');
+
+            let postDate = document.createElement('p')
+            postDate.innerHTML = post.createdAt || "date undefined!";
+            postDate.classList.add('postDate')
+
+            let img = document.createElement('img')
+            img.src = `public/places/${post.id}`
+
+            let postContainer = document.createElement('div');
+            postContainer.classList.add('post')
+
+            // adding the link
+
+            postContainer.appendChild(place)
+            postContainer.appendChild(postContent)
+            postContainer.appendChild(img)
+            postContainer.appendChild(postDate)
+            postContainer.appendChild(document.createElement('hr'))
+
+            // this.div.appendChild(postContainer)
+            // TODO: I'm going to alter this rendering method
+            a.appendChild(postContainer);
+            this.div.appendChild(a);
+        }
+
+        this.lastPostIndex = this.content.length;
+
     }
 
 }
 
 
-new PlacesSet(document.getElementsByClassName("realContent2")[0], "api/get_posts.php");
+class EventsSet extends PostSet {
 
 
-new PlacesSet(document.getElementsByClassName("realContent3")[0], "api/get_posts.php");
+    constructor(...args) {
+        super(...args);
+    }
+
+    render() {
+        console.log(this.api);
+        console.log(this.content);
 
 
+        // this is supposed to render this.posts to this.div
+        // for testing reasons, it is just going to print from last post!
+        console.log("rendering ...");
+        if (this.content.length === this.lastPostIndex) {
+            return;
+        }
+
+        console.log(this.content.slice(this.lastPostIndex, this.content.length));
+
+        // actual rendering to page:
+        console.log("rendering ...");
+
+        // TODO: replace this outdated way of rendering with a newer, template-based method
+        for (let post of this.content.slice(
+            this.lastPostIndex,
+            this.content.length
+        )) {
+
+            console.log(`post link: ../../views/post.php?id=${post['id']}`);
+
+            let a = document.createElement('a');
+            a.href = `../../views/post.php?id=${post['id']}`;
+
+            let userDiv = document.createElement('div')
+            userDiv.classList.add('userDiv')
+
+            let username = document.createElement('p')
+            username.classList.add('username')
+
+            let userImg = document.createElement('img')
+            userImg.classList.add('userImg')
+
+            username.innerHTML = post.user.username
+            // userImg.src = `/public/profiles/` + (post.user.picture ? post.user.username : 'user.png')
+            userImg.src = `/public/profiles/` + (post.user.picture ? post.user.username : 'default/user.png')
+
+            userDiv.appendChild(userImg)
+            userDiv.appendChild(username)
+
+            let postContent = document.createElement('p')
+            postContent.innerHTML = post.content || "content undefined!";
+            postContent.classList.add('postContent')
+
+            let postDate = document.createElement('p')
+            postDate.innerHTML = post.createdAt || "date undefined!";
+            postDate.classList.add('postDate')
+
+            let img = document.createElement('img')
+            img.src = `public/posts/${post.id}`
+
+            let postContainer = document.createElement('div');
+            postContainer.classList.add('post')
+
+
+            postContainer.appendChild(userDiv)
+            postContainer.appendChild(postContent)
+            postContainer.appendChild(img)
+            postContainer.appendChild(postDate)
+            postContainer.appendChild(document.createElement('hr'))
+
+            // this.div.appendChild(postContainer)
+            // TODO: I'm going to alter this rendering method
+            a.appendChild(postContainer);
+            this.div.appendChild(a);
+        }
+
+        this.lastPostIndex = this.content.length;
+
+    }
+}
+
+
+let myPlaces = new PlacesSet(document.getElementsByClassName("realContent2")[0], "api/get_places.php");
+
+
+let myEvents = new EventsSet(document.getElementsByClassName("realContent3")[0], "api/get_posts.events");
+
+
+// TODO:
+// []- make the render function renders all posts form current index to tha last item
+// no need to make the user wait for locally available data! - useless bottleneck!
+if (container != null) {
+    container.addEventListener("scroll", (e) => {
+        // TODO:
+        // []- when the event is triggered, stop listening for 3s, and then re-attach the event
+        // to stop requesting more than one page's worth of posts if you happen to hit the bottom
+        // twice or more before new posts render
+        // []- (maybe) turn the trigger to: hovering over the last element, rather than scrolling down to the last element!
+        if (
+            // scrollTop = scrollHeight - offsetHeight
+            container.scrollTop + container.offsetHeight >
+            container.scrollHeight - 20
+        ) {
+            myPosts.fetchNext();
+            myPosts.render();
+
+            myPlaces.fetchNext();
+            myPlaces.render();
+
+            myEvents.fetchNext();
+            myEvents.render();
+        }
+    });
+}

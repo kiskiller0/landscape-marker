@@ -137,3 +137,18 @@ form textarea {
 .by {
     display: none;
 }
+
+.post a i {
+    font-size: 7em;
+    text-align: center;
+    text-decoration: none;
+}
+
+.post a {
+    text-align: center;
+}
+
+
+.post p {
+    font-size: 1.2em;
+}

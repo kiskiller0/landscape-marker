@@ -135,15 +135,25 @@ include "views/partials/header.html";
             <i class="fa-solid fa-xmark clickable"></i>
         </div>
         <div class="parameters_content content">
-            <form action="api/send_post.php" method="post" enctype="multipart/form-data">
-                <textarea name="content" placeholder="say something"></textarea>
+            <form action="api/add_event.php" method="post" enctype="multipart/form-data">
+                <label for="name">name</label>
+                <input type="text" name="name">
+
+                <label for="place">place id: (look in places)</label>
+                <input type="text" name="place">
+
+                <label for="description">description</label>
+                <textarea name="description" placeholder="say something"></textarea>
 
                 <div class="file">
                     <input type="file" name="imgsrc">
                     <i class="fa-regular fa-image"></i>
                 </div>
 
+                <input type="datetime-local" name="date">
+
                 <input type="submit" value="submit">
+
             </form>
         </div>
     </div>

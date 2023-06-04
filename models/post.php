@@ -4,14 +4,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/models/table.php";
 
 class Post extends Table
 {
-    private $batch = 2; // number of posts to fetch per page (pagination)
-
     public function __construct($name, $needed_fields, $unique_fields)
     {
         parent::__construct($name, $needed_fields, $unique_fields);
-//        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
-//        $this->pdo = new PDO($this->dsn, $this->username, $this->password);
-
     }
 
     public function getByUserid($userid)

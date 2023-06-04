@@ -32,6 +32,8 @@ class Table
     protected $needed_fields; // an array containing all the fields of the table; //don't add id and date ... (fields that are auto_inserted by db)
     protected $unique_fields;
 
+    protected $batch = 2;
+
 
     public function __construct($name, $needed_fields, $unique_fields)
     {
@@ -66,6 +68,14 @@ class Table
             }
         }
 
+
+        $sql = sprintf(
+            "INSERT INTO %s(%s) VALUES(%s)",
+            $this->name,
+            implode(',', $this->needed_fields),
+            implode(',', str_split(str_repeat('?', count($this->needed_fields)), 1))
+        );
+
         $s = $this->pdo->prepare(
             sprintf(
                 "INSERT INTO %s(%s) VALUES(%s)",
@@ -74,13 +84,6 @@ class Table
                 implode(',', str_split(str_repeat('?', count($this->needed_fields)), 1))
             ));
 
-
-        $sql = sprintf(
-            "INSERT INTO %s(%s) VALUES(%s)",
-            $this->name,
-            implode(',', $this->needed_fields),
-            implode(',', str_split(str_repeat('?', count($this->needed_fields)), 1))
-        );
 
 //        die(json_encode([$sql, $arr]));
 
@@ -161,6 +164,28 @@ class Table
         return ['error' => $error, 'msg' => $msg, 'data' => $data];
     }
 
+
+    public function getByFieldBatched($key, $value, $mode)
+    {
+//        echo sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode);
+//        return;
+        //WHERE %s < ? ORDER BY id DESC LIMIT %
+        $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ? ORDER BY %s DESC LIMIT %s", $this->name, $key, $mode, $key, $this->batch));
+        $s->execute([$value]);
+
+        $error = true;
+        $msg = 'no records fetched!';
+        $data = [];
+
+        if ($fetched = $s->fetchAll()) {
+            $error = false;
+            $msg = 'success';
+            $data = $fetched;
+        }
+
+        return ['error' => $error, 'msg' => $msg, 'data' => $data];
+    }
+
     public static function extractArrayFromAssoc($needed, $assoc)
     {
         // TODO: remove this and use the built in array_intersect
@@ -172,16 +197,25 @@ class Table
         return $result;
     }
 
-    public function getLastInserted()
+    public function getLastInserted($count = null)
     {
-        $s = $this->pdo->prepare(sprintf("SELECT * FROM %s ORDER BY id DESC LIMIT 1", $this->name));
+        if (!$count) {
+            $count = $this->batch;
+        }
+
+        $s = $this->pdo->prepare(sprintf("SELECT * FROM %s ORDER BY id DESC LIMIT %d", $this->name, $count));
         $s->execute();
 
         $error = true;
         $msg = 'no records fetched!';
         $data = [];
 
-        if ($fetched = $s->fetch()) {
+        if ($count == 1) {
+            $fetched = $s->fetch();
+        } else {
+            $fetched = $s->fetchAll();
+        }
+        if ($fetched) {
             $error = false;
             $msg = 'success';
             $data = $fetched;

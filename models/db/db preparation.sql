@@ -1,7 +1,9 @@
 USE learning;
 
-DROP TABLE IF EXISTS place;
+
+
 DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS place;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS user;
@@ -12,13 +14,13 @@ DROP TABLE IF EXISTS place;
 CREATE TABLE user
 (
 
-    id         INT PRIMARY KEY AUTO_INCREMENT,
-    username   VARCHAR(25) UNIQUE NOT NULL,
-    password   VARCHAR(25)        NOT NULL,
-    picture    BOOLEAN DEFAULT FALSE,
-    email      VARCHAR(25) UNIQUE NOT NULL,
-    first_name VARCHAR(60)        NOT NULL,
-    last_name  VARCHAR(60)        NOT NULL
+    id       INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(25) UNIQUE NOT NULL,
+    password VARCHAR(25)        NOT NULL,
+    picture  BOOLEAN DEFAULT FALSE,
+    email    VARCHAR(25) UNIQUE NOT NULL
+#     first_name VARCHAR(60)        NOT NULL,
+#     last_name  VARCHAR(60)        NOT NULL
 
 );
 
@@ -64,7 +66,7 @@ CREATE TABLE event
     description VARCHAR(1000)      NOT NULL,
     userid      INT REFERENCES user (id),
     # an event takes (place):
-    place       INT REFERENCES place (id),
+    placeid     INT REFERENCES place (id),
     createdAt   DATETIME DEFAULT CURRENT_TIMESTAMP,
     date        DATETIME DEFAULT CURRENT_TIMESTAMP
 
