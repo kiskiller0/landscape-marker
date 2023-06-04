@@ -140,7 +140,7 @@ include "views/partials/header.html";
                 <input type="text" name="name">
 
                 <label for="place">place id: (look in places)</label>
-                <input type="text" name="place">
+                <input type="text" name="placeid">
 
                 <label for="description">description</label>
                 <textarea name="description" placeholder="say something"></textarea>

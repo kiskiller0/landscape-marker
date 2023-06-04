@@ -13,7 +13,7 @@ if (!in_array('username', array_keys($_SESSION))) {
 }
 
 
-$needed_fields = ['name', 'description', 'date', 'place']; // the needed_fields field does contain userid
+$needed_fields = ['name', 'description', 'date', 'placeid']; // the needed_fields field does contain userid
 
 foreach ($needed_fields as $field) {
     if (!in_array($field, array_keys($_POST)) || trim($_POST[$field]) == '') {
