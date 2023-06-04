@@ -434,10 +434,10 @@ class EventsSet extends PostSet {
             this.content.length
         )) {
 
-            console.log(`post link: ../../views/post.php?id=${post['id']}`);
+            console.log(`post link: ../../views/event.php?id=${post['id']}`);
 
             let a = document.createElement('a');
-            a.href = `../../views/post.php?id=${post['id']}`;
+            a.href = `../../views/event.php?id=${post['id']}`;
 
             let userDiv = document.createElement('div')
             userDiv.classList.add('userDiv')
@@ -456,7 +456,7 @@ class EventsSet extends PostSet {
             userDiv.appendChild(username)
 
             let postContent = document.createElement('p')
-            postContent.innerHTML = post.content || "content undefined!";
+            postContent.innerHTML = post.description || "content undefined!";
             postContent.classList.add('postContent')
 
             let postDate = document.createElement('p')
@@ -464,17 +464,22 @@ class EventsSet extends PostSet {
             postDate.classList.add('postDate')
 
             let img = document.createElement('img')
-            img.src = `public/posts/${post.id}`
+            img.src = `public/events/${post.id}`
 
             let postContainer = document.createElement('div');
             postContainer.classList.add('post')
 
+
+            let pdead = document.createElement('p');
+            pdead.innerHTML = `will be held at: ${post['date']}`;
+            pdead.classList.add('deadline')
 
             postContainer.appendChild(userDiv)
             postContainer.appendChild(postContent)
             postContainer.appendChild(img)
             postContainer.appendChild(postDate)
             postContainer.appendChild(document.createElement('hr'))
+            postContainer.appendChild(pdead)
 
             // this.div.appendChild(postContainer)
             // TODO: I'm going to alter this rendering method
@@ -491,7 +496,7 @@ class EventsSet extends PostSet {
 let myPlaces = new PlacesSet(document.getElementsByClassName("realContent2")[0], "api/get_places.php");
 
 
-let myEvents = new EventsSet(document.getElementsByClassName("realContent3")[0], "api/get_posts.events");
+let myEvents = new EventsSet(document.getElementsByClassName("realContent3")[0], "api/get_events.php");
 
 
 // TODO:
