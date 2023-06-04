@@ -35,7 +35,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/models/event.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/models/place.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/models/user.php";
 
-$event = Event->getByUniqueValue('id', $_GET['id']);
+$event = $Event->getByUniqueValue('id', $_GET['id']);
 
 if ($event['error']) {
     die(json_encode(['error' => true, 'msg' => 'missing post!']));
@@ -48,13 +48,20 @@ $event = $event['msg'];
 
 // getting user info from userid:
 $poster = $User->getByUniqueValue('id', $event['userid']);
-$place = $Place->getByUniqueValue('id', $event['placeid']);
 
 if ($poster['error']) {
-    die(json_encode(['error' => true, 'msg' => 'poster not found!']));
+    die(json_encode(['error' => true, 'msg' => 'poster non-existent!']));
 }
 
 $poster = $poster['msg'];
+
+$place = $Place->getByUniqueValue('id', $event['placeid']);
+
+if ($place['error']) {
+    die(json_encode(['error' => true, 'msg' => 'place not found!']));
+}
+
+$place = $place['msg'];
 
 
 echo "<div class='post'>";
@@ -75,8 +82,9 @@ echo "<p class='postContent'>Description:</p>";
 echo sprintf("<p class='postContent'>%s</p>", $event['description']);
 echo sprintf("<img  src='%s' alt='postImg'>", '../../public/events/' . $event['id']);
 echo sprintf("<p class='postDate'>deadline: %s</p>", $event['date']);
-echo sprintf("<a href='../../places.php?id=%s' target='_blank'><i class=\"fa-sharp fa-solid fa-location-dot\"></i></a>", $place['id']);
-echo sprintf("<p class='postContent'>id: %s</p>", $event['id']);
+echo sprintf("<a href='../../views/place.php?id=%s' target='_blank'><i class=\"fa-sharp fa-solid fa-location-dot\"></i></a>", $place['id']);
+
+//var_dump($place);
 
 echo "</div>";
 

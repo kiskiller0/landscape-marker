@@ -55,4 +55,4 @@ if (!in_array('imgsrc', array_keys($_FILES)) || !$_FILES['imgsrc']['type'] || co
 }
 
 
-
+header('location: ../..');
