@@ -115,6 +115,6 @@ class user extends Table
     #TODO: profile pic is just a boolean: true of fals, if true fetch /public/profiles/username.png else fetch default.png
 }
 
-$User = new user("user", ['username', 'email', 'password'], ['id', 'username', 'email']);
+$User = new user("user", ['username', 'email', 'password', 'picture'], ['id', 'username', 'email']);
 // var_dump($User->addUser($_POST));
 // TODO: add first_name and last_name and update the table scheme in sql, and account for changes in the login/signup apis
