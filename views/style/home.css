@@ -397,17 +397,6 @@ input:focus {
 }
 
 
-#content {
-    /*position: relative;*/
-}
-
-#content div {
-    /*width: 500px;*/
-    /*border: 1px solid black;*/
-    /*flex-shrink: 0;*/
-}
-
-
 .page.darkmode #content div {
     background-color: #444444;
 }

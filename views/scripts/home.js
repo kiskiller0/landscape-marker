@@ -51,6 +51,7 @@ class PostSet {
         // this.getLocalPosts() || this.fetchNext();
         // this.getLocalPosts(); this.fetchNext();
         // first, get last n posts to begin with:
+        console.log(`rendering ${this.api} for the first time!`);
         this.fetchNext();
         // extract previously saved posts from local storage:
     }
@@ -61,11 +62,13 @@ class PostSet {
     }
 
     fetchNext(url = this.api) {
-        if (this.div.classList.contains("hidden")) {
+        if (this.div.classList.contains("hidden") && this.lastPostIndex > 0) {
             console.log(`the tab that fetches from ${this.api} is hidden!`);
             return;
         }
+
         if (this.fetchPending) {
+            console.log(`sorry, fetch is pending!`);
             return;
         }
 

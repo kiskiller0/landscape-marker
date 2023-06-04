@@ -3,11 +3,14 @@
 session_start();
 include "../models/user.php";
 
-if (empty($_SESSION) || !in_array('username', array_keys($_SESSION)) || !($user = $User->getByUsername($_SESSION['username']))) {
+$user = $User->getByUniqueValue('username', $_SESSION['username']);
+
+if (empty($_SESSION) || !in_array('username', array_keys($_SESSION)) || $user['error']) {
     echo json_encode(['error' => true, 'msg' => 'not logged in!']);
     die();
 }
 
+$user = $user['msg'];
 
 $neededFields = ['id', 'username', 'email', 'picture'];
 $neededInfo = [];

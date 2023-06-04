@@ -29,7 +29,7 @@ if (!in_array('id', array_keys($_POST))) {
 $placesWithUserData = array();
 
 foreach ($places as $currentPost) {
-    $user = $User->getById($currentPost['userid']);
+    $user = $User->getByUniqueValue('id', $currentPost['userid'])['msg'];
     array_push($placesWithUserData, [...$currentPost, 'user' => ['username' => $user['username'], 'picture' => $user['picture']]]);
     // array_push($placesWithUserData, json_encode([...$currentPost, 'username' => $username]));
 }

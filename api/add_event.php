@@ -4,6 +4,7 @@ session_start();
 
 header('content-type: application/json');
 include "../models/event.php";
+include "../models/place.php";
 
 if (!in_array('username', array_keys($_SESSION))) {
     if (!in_array('userid', array_keys($_SESSION))) {
@@ -26,14 +27,24 @@ if (!in_array('imgsrc', array_keys($_FILES)) || $_FILES['imgsrc']['tmp_name'] ==
     die(json_encode(['error' => true, 'msg' => 'no img supplied for the event!']));
 }
 
+// checking the existence of the place:
+$place = $Place->getByUniqueValue("id", $_POST['placeid']);
+
+if ($place['error']) {
+    die(json_encode(['error' => true, 'msg' => 'place non-existent']));
+}
+
 if (!in_array('imgsrc', array_keys($_FILES)) || !$_FILES['imgsrc']['type'] || count($_FILES['imgsrc']) < 2) {
     die(json_encode(['error' => true, 'msg' => 'no image selected!']));
 } else {
 
     $allowed_types = ['jpeg', 'jpg', 'png'];
     $type = explode('/', $_FILES['imgsrc']['type'])[1];
+
     if (in_array($type, $allowed_types)) {
+
         $result = $Event->addNew([...$_POST, 'userid' => $_SESSION['userid']]);
+
         if ($result['error']) {
             die(json_encode($result));
         }

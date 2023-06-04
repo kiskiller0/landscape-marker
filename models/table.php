@@ -3,8 +3,7 @@
 //namespace table;
 //use table;
 
-//die('table included successfully!');
-
+//I should use an enum, and hide it in a namespace to avoid pollution, haven't learned them yet so!
 define("EQ", '=');
 define("GT", '>');
 define("GTE", '>=');
@@ -32,7 +31,7 @@ class Table
     protected $needed_fields; // an array containing all the fields of the table; //don't add id and date ... (fields that are auto_inserted by db)
     protected $unique_fields;
 
-    protected $batch = 2;
+    protected $batch = 2; // this is needed for pagination
 
 
     public function __construct($name, $needed_fields, $unique_fields)
@@ -48,7 +47,7 @@ class Table
         if (!$arr || !count($arr)) {
             return ['error' => true, 'msg' => 'do no send me empty arrays!'];
         }
-        // this check should be not be done here?
+
         foreach ($this->needed_fields as $key) {
             // the presence of values should be tested in the api endpoint that receives the post request?
             if (!in_array($key, array_keys($arr)) || trim($arr[$key]) == '') {
@@ -84,18 +83,6 @@ class Table
                 implode(',', str_split(str_repeat('?', count($this->needed_fields)), 1))
             ));
 
-
-//        die(json_encode([$sql, $arr]));
-
-        // TODO: add try except here in order to avoid errors!
-
-        // FIX: the current error is the result of arg missmatch, the order of elements in $arr, is not the same in $needed_fields
-//        if ($s->execute($arr)) {
-
-
-//        die(json_encode([$sql, Table::extractArrayFromAssoc($this->needed_fields, $arr)]));
-
-// array_map(extractArrayFromAssoc($this->needed_fields, $arr), $this->needed_fields)
         $orderedArray = Table::extractArrayFromAssoc($this->needed_fields, $arr);
         if ($s->execute($orderedArray)) {
             return ['error' => false, 'msg' => sprintf("recorde: %s \ncreated successfully", json_encode($arr))];
@@ -103,20 +90,6 @@ class Table
             return ['error' => true, 'msg' => 'something happened, debug your code!'];
         }
     }
-
-    //public function getOlderThan($date)
-    //public function getOlderThanOrEqual($date)
-    //public function getNewerThan($date)
-    //public function getNewerThanOrEqual($date)
-    //public function getByUniqueField($field)
-    //public function getLastInsertedId()
-    // TODO : think of a more generalized way of passing this part: older/bigger than, or equal ... like passing flags
-
-    // the only problem is namespace pollution
-    // idea! : use namespaces!
-
-    //public function getByUniqueValue($key, $value); // $key is the name of the field ex: getByUniqueValue("id", 5);
-    // ex: getByUniqueValue("username", "aymenIsHomo321");
 
     public function getByUniqueValue(string $key, string $value)
     {
@@ -146,8 +119,6 @@ class Table
 
     public function getByField($key, $value, $mode)
     {
-//        echo sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode);
-//        return;
         $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode));
         $s->execute([$value]);
 
@@ -167,9 +138,6 @@ class Table
 
     public function getByFieldBatched($key, $value, $mode)
     {
-//        echo sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode);
-//        return;
-        //WHERE %s < ? ORDER BY id DESC LIMIT %
         $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ? ORDER BY %s DESC LIMIT %s", $this->name, $key, $mode, $key, $this->batch));
         $s->execute([$value]);
 

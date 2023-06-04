@@ -35,11 +35,11 @@ foreach ($neededAttributes as $attr) {
         die();
     }
 }
-
-if ($u = $User->getByUsername($_POST['username'])) {
+$u = $User->getByUniqueValue('username', $_POST['username']);
+if (!$u['error']) {
+    $u = $u['msg'];
     if ($u['password'] == $_POST['password']) {
         echo json_encode(['error' => false, 'msg' => "user \"" . $_POST['username'] . ':', "values:" => [...$u]]);
-        // $_SESSION['username'] = $_POST['username'];
         $_SESSION['username'] = $u['username'];
         $_SESSION['userid'] = $u['id'];
     } else {

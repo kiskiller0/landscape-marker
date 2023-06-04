@@ -17,7 +17,7 @@ $stmt = $pdoConnection->query('SELECT * from ' . $table . ';');
 // $pdoConnection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ)
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	var_dump($row);
+    var_dump($row);
 }
 
 
@@ -71,31 +71,24 @@ $user = "root";
 $pass = "";
 $db = "learning";
 $table = "user";
+
 // DSN: data source name:
 
 
 class user
 {
-	private $dsn;
-	private $db = "learning";
-	private $host = "localhost";
-	private $username = "root";
-	private $password = '';
-	private $pdo;
+    private $dsn;
+    private $db = "learning";
+    private $host = "localhost";
+    private $username = "root";
+    private $password = '';
+    private $pdo;
 
-	public function __construct()
-	{
-		$this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
-		$this->pdo = new PDO($this->dsn, $this->username, $this->password);
-	}
-
-	public function getByUsername($username)
-	{
-		$s = $this->pdo->prepare("SELECT * FROM user WHERE username = ?");
-		$s->execute([$username]);
-		return $s->fetch();
-	}
+    public function __construct()
+    {
+        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
+        $this->pdo = new PDO($this->dsn, $this->username, $this->password);
+    }
 }
 
 $User = new user();
-var_dump($User->getByUsername('kiskiller0'));
