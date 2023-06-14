@@ -1,6 +1,5 @@
 <?php
-die(($_POST));
-
+die(json_encode($_POST));
 
 session_start();
 
