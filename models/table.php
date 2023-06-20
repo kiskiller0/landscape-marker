@@ -22,7 +22,7 @@ enum MODE: string
 
 class Table
 {
-    public $name;
+    protected $name;
     protected $username = 'root';
     protected $password = 'bader';
     protected $host = 'localhost';
@@ -117,7 +117,7 @@ class Table
         return ['error' => $error, 'msg' => $msg];
     }
 
-    public function getByField($key, $value, $mode)
+    public function getByField($key, $value, $mode): array
     {
         $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ?", $this->name, $key, $mode));
         $s->execute([$value]);
@@ -132,11 +132,11 @@ class Table
             $data = $fetched;
         }
 
-        return ['error' => $error, 'msg' => $msg, 'data' => $data];
+        return ['error' => $error, 'msg' => $data];
     }
 
 
-    public function getByFieldBatched($key, $value, $mode)
+    public function getByFieldBatched($key, $value, $mode): array
     {
         $s = $this->pdo->prepare(sprintf("SELECT * FROM %s WHERE %s %s ? ORDER BY %s DESC LIMIT %s", $this->name, $key, $mode, $key, $this->batch));
         $s->execute([$value]);
@@ -165,7 +165,7 @@ class Table
         return $result;
     }
 
-    public function getLastInserted($count = null)
+    public function getLastInserted($count = null): array
     {
         if (!$count) {
             $count = $this->batch;
@@ -203,6 +203,57 @@ class Table
         return $this->needed_fields;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+//    public function renderRecord(array $data): string
+//    {
+//        $html = '';
+//        $html .= sprintf("<div class='%s'>", $this->name);
+//        foreach (array_keys($this->getNeededFields()) as $field) {
+//            $html .= sprintf("<p class='%s'>%s</p>", $field, $data[$field]);
+//        }
+//        $html .= sprintf("</div>");
+//
+//        return $html;
+//    }
+//
+//    public function renderCreateForm(string $api, string $divClassName = ''): string
+//    {
+//        $html = sprintf("<div class='%s'>", $divClassName);
+//        $html .= sprintf("<form action='%s' method='post'>", $api);
+//
+//        foreach ($this->getNeededFields() as $field) {
+//            $html .= sprintf("<label for='%s'>%s</label>", $field, $field);
+//            $html .= sprintf("<input type='text' name='%s' />", $field);
+//        }
+//
+//        $html .= "<input type='submit' name='submit'/>";
+//        $html .= "</form>";
+//        $html .= "</div>";
+//
+//        return $html;
+//    }
+//
+//
+//    public function renderInquireForm(string $api, string $divClassName = ''): string
+//    {
+//        $html = sprintf("<div class='%s'>", $divClassName);
+//        $html .= sprintf("<form action='%s' method='post'>", $api);
+//
+//        foreach ($this->getUniqueFields() as $field) {
+//            $html .= sprintf("<label for='%s'>%s</label>", $field, $field);
+//            $html .= sprintf("<input type='text' name='%s' />", $field);
+//        }
+//
+//        $html .= "<input type='submit' name='submit'/>";
+//        $html .= "</form>";
+//        $html .= "</div>";
+//
+//        return $html;
+//    }
     // TODO: create a getByFields function that takes an array of arrays: getByFields(['id', 5, GT], ['username', 'kiskiller0', NEQ] ....);
     // and builds a complex query that returns records according to all the passed conditions
 }

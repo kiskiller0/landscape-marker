@@ -104,9 +104,9 @@ echo "<hr>";
         echo '</div>';
     }
 
-    if (!$comments['error'] && count($comments['data'])) {
+    if (!$comments['error'] && count($comments['msg'])) {
         // show all comments:
-        foreach ($comments['data'] as $comment) {
+        foreach ($comments['msg'] as $comment) {
             renderComment($comment);
         }
     } else {

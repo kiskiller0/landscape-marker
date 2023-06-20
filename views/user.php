@@ -47,7 +47,7 @@ if ($posts['error']) {
     die("<p>There is no posts!</p>");
 }
 
-$posts = $posts['data'];
+$posts = $posts['msg'];
 
 foreach ($posts as $p) {
     echo sprintf("<a href=\"../../views/post.php?id=%s\">", $p['id']);

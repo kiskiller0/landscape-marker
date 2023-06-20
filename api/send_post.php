@@ -1,5 +1,4 @@
 <?php
-die(($_POST));
 
 
 session_start();
